@@ -1,72 +1,88 @@
 package game.entity;
 
 import game.Game;
-import game.input.InputHandler;
+import game.entity.projectile.CircleProjectile;
+import game.handlers.InputHandler;
 
-import java.awt.Point;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
-public class Player {
+import javax.imageio.ImageIO;
+
+public class Player extends Entity {
 	
-	private Point pos;
-	private Rectangle bounds;
-	private int speed;
 	private InputHandler input;
-	public static final int WIDTH = 16;
-	public static final int HEIGHT = 16;
-	private static final int MAX_X = (Game.WIDTH * Game.SCALE) - WIDTH + 10;
-	private static final int MAX_Y = (Game.HEIGHT * Game.SCALE) - HEIGHT + 10;
+	private BufferedImage healthIcon;
+	private double shootTimer;
 	
-	public Player(int x, int y) {
-		pos = new Point(x, y);
-		
-		bounds = new Rectangle(pos.x, pos.y, WIDTH, HEIGHT);
+	public Player(int x, int y, Game game) {
+		super(x, y, game);
+		WIDTH = 16;
+		HEIGHT = 16;
+		bounds = new Rectangle(position, new Dimension(WIDTH, HEIGHT));
 		speed = 4;
+		health = 3;
+		
+		shootTimer = 20;
+		
+		try {
+			healthIcon = ImageIO.read(new File("res/images/heart.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void setInput(InputHandler input) {
 		this.input = input;
 	}
 	
-	public void update() {
-		if (input.keys[KeyEvent.VK_W] || input.keys[KeyEvent.VK_UP])
-			moveUp();
-		if (input.keys[KeyEvent.VK_S] || input.keys[KeyEvent.VK_DOWN])
-			moveDown();
-		if (input.keys[KeyEvent.VK_A] || input.keys[KeyEvent.VK_LEFT])
-			moveLeft();
-		if (input.keys[KeyEvent.VK_D] || input.keys[KeyEvent.VK_RIGHT])
-			moveRight();
+	public void sendProjectile(Direction d) {
+		game.addProjectile(new CircleProjectile(getCenterX(), getCenterY(), game, this, d, 7, 1, 8));
 	}
 	
-	public void setSpeed(int speed) {
-		this.speed = speed;
-	}
-	
-	public int getX() {
-		return pos.x;
-	}
-	
-	public int getY() {
-		return pos.y;
-	}
-	
-	public void moveRight() {
-		pos.x = pos.x + speed > MAX_X ? MAX_X : pos.x + speed;
-	}
-	
-	public void moveLeft() {
-		pos.x = pos.x - speed < 0 ? 0 : pos.x - speed;
-	}
-	
-	public void moveUp() {
-		pos.y = pos.y - speed < 0 ? 0 : pos.y - speed;
-	}
-	
-	public void moveDown() {
-		pos.y = pos.y + speed > MAX_Y ? MAX_Y : pos.y + speed;
+	public void update(double diff) {
+		bounds = new Rectangle(position, new Dimension(WIDTH, HEIGHT));
+		
+		if (shootTimer <= diff) {
+			if (input.keys[KeyEvent.VK_UP])
+				sendProjectile(Direction.UP);
+			else if (input.keys[KeyEvent.VK_DOWN])
+				sendProjectile(Direction.DOWN);
+			else if (input.keys[KeyEvent.VK_LEFT])
+				sendProjectile(Direction.LEFT);
+			else if (input.keys[KeyEvent.VK_RIGHT])
+				sendProjectile(Direction.RIGHT);
+			shootTimer = 20;
+		} else shootTimer -= diff;
+		
+		int directions = 0;
+		if (input.keys[KeyEvent.VK_W]) directions++;
+		if (input.keys[KeyEvent.VK_S]) directions++;
+		if (input.keys[KeyEvent.VK_A]) directions++;
+		if (input.keys[KeyEvent.VK_D]) directions++;
+		
+		if (input.keys[KeyEvent.VK_W])
+			move(Direction.UP, directions > 1);
+		if (input.keys[KeyEvent.VK_S])
+			move(Direction.DOWN, directions > 1);
+		if (input.keys[KeyEvent.VK_A])
+			move(Direction.LEFT, directions > 1);
+		if (input.keys[KeyEvent.VK_D])
+			move(Direction.RIGHT, directions > 1);
 	}
 
+	public void render(Graphics2D g) {
+		g.setColor(Color.BLACK);
+		g.fillRect(getX(), getY(), HEIGHT, WIDTH);
+		
+		for (int i = 0; i < health; i++) 
+			g.drawImage(healthIcon, i*20 + 10, 10, 16, 14, null);
+	}
+	
 }
