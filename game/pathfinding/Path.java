@@ -8,14 +8,9 @@ import java.util.ArrayList;
 
 public class Path {
 
-	/*private ArrayList<Position> path;
-	private ArrayList<Position> closed;
-	private Heap<Position> open;
-    private Position end;*/
     private ArrayList<Tile> path;
     private ArrayList<Tile> closed;
     private Heap<Tile> open;
-    private Tile end;
     private Level level;
 	
 	public Path(Level l) {
@@ -24,10 +19,6 @@ public class Path {
 		closed = new ArrayList<Tile>();
 	
 		level = l;		
-	}
-
-	public int getPathLength() {
-		return path == null ? 0 : path.size();
 	}
 	
 	public Point getNext() {
@@ -43,7 +34,7 @@ public class Path {
 		closed.clear();
 
         Tile start = new Tile(startx, starty);
-		end = new Tile(endx, endy);
+        Tile end = new Tile(endx, endy);
         Tile current = new Tile(start.x, start.y);
 
         long startTime = System.currentTimeMillis();
@@ -139,41 +130,6 @@ public class Path {
 		if (topLeft.x >= 0 && topLeft.y >= 0 && isValidSearchPosition(topLeft)) {
             level.tiles[topLeft.x][topLeft.y].setParent(level.tiles[x][y]);
 			open.insert(level.tiles[topLeft.x][topLeft.y]);
-		}
-	}
-
-	public class Position implements Comparable<Position> {
-		public int x;
-		public int y;
-		private Position parent;
-		private int moveCost;
-
-		public Position(Point p) {
-			x = p.x;
-			y = p.y;
-			parent = null;
-		}
-
-		public Position(int x, int y) {
-			this.x = x;
-			this.y = y;
-			parent = null;
-		}
-
-		public Position getParent() {
-			return parent;
-		}
-
-		public void setParent(Position position) {
-			parent = position;
-		}
-
-		public int compareTo(Position p) {
-			return p.moveCost > moveCost ? -1 : p.moveCost < moveCost ? 1 : 0;
-		}
-
-		public String toString() {
-			return String.format("(%d, %d)", x, y);
 		}
 	}
 }
