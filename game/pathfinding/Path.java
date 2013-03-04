@@ -8,22 +8,24 @@ import java.util.ArrayList;
 
 public class Path {
 
-	private ArrayList<Position> path;
+	/*private ArrayList<Position> path;
 	private ArrayList<Position> closed;
 	private Heap<Position> open;
-    private Position end;
+    private Position end;*/
+    private ArrayList<Tile> path;
+    private ArrayList<Tile> closed;
+    private Heap<Tile> open;
+    private Tile end;
     private Level level;
-	private Position[][] points;
 	
 	public Path(Level l) {
-		path = new ArrayList<Position>();
-		open = new Heap<Position>();
-		closed = new ArrayList<Position>();		
-		points = new Position[Game.WIDTH*Game.SCALE][Game.HEIGHT*Game.SCALE];
+		path = new ArrayList<Tile>();
+		open = new Heap<Tile>();
+		closed = new ArrayList<Tile>();
 	
 		level = l;		
 	}
-	
+
 	public int getPathLength() {
 		return path == null ? 0 : path.size();
 	}
@@ -31,28 +33,29 @@ public class Path {
 	public Point getNext() {
 		if (path == null || path.size() == 0)
 			return null;
-		Position p = path.remove(path.size() - 1);
-		return new Point(p.x, p.y);
+		Tile t = path.remove(path.size() - 1);
+		return new Point(t.x, t.y);
 	}
 	
 	public void generatePath(int startx, int starty, int endx, int endy) {
-        long startTime = System.currentTimeMillis();
 		path.clear();
 		open.clear();
 		closed.clear();
 
-        Position start = new Position(startx, starty);
-		end = new Position(endx, endy);
-        Position current = new Position(start.x, start.y);
-		
+        Tile start = new Tile(startx, starty);
+		end = new Tile(endx, endy);
+        Tile current = new Tile(start.x, start.y);
+
+        long startTime = System.currentTimeMillis();
 		for (int x = 0; x < Game.WIDTH*Game.SCALE; x++)
 			for (int y = 0; y < Game.HEIGHT*Game.SCALE; y++) {
-				points[x][y] = new Position(x, y);
-				points[x][y].moveCost = moveCost(new Point(x, y));
+				level.tiles[x][y].calcCost(endx, endy);
 			}
-		start = points[startx][starty];
-		end = points[endx][endy];
-		current = new Position(start.x, start.y);
+
+        System.out.println("It took " + (System.currentTimeMillis() - startTime) + "ms to find the path");
+		start = level.tiles[startx][starty];
+		end = level.tiles[endx][endy];
+		current = new Tile(start.x, start.y);
 		
 		closed.add(start);
 		
@@ -61,7 +64,7 @@ public class Path {
 				break;
 			searchOpenTiles(current.x, current.y);
 			
-			Position temp = open.remove();
+			Tile temp = open.remove();
 			if (temp == null)
 				break;
 			closed.add(temp);
@@ -71,21 +74,15 @@ public class Path {
 			
 		}
 		
-		Position p = points[current.x][current.y];
-		while ((p = p.getParent()) != null) {
-			//System.out.println(p);
-			path.add(p);
-		}
-        System.out.println("It took " + (System.currentTimeMillis() - startTime) + "ms to find the path");
-		
-	}
-	
-	private int moveCost(Point p) {
-		return (Math.abs(p.x - end.x) + Math.abs(p.y - end.y));
+		Tile t = level.tiles[current.x][current.y];
+		while ((t = t.getParent()) != null)
+			path.add(t);
+
+        level.resetParents();
 	}
 	
 	private boolean isValidSearchPosition(Point p) {
-		return level.isTraversable(p) && !closed.contains(points[p.x][p.y]) && !open.contains(points[p.x][p.y]);
+		return level.tiles[p.x][p.y].isTraversable() && !closed.contains(level.tiles[p.x][p.y]) && !open.contains(level.tiles[p.x][p.y]);
 	}
 	
 	private void searchOpenTiles(int x, int y) {
@@ -101,81 +98,80 @@ public class Path {
 
 		if (top.y >= 0 && isValidSearchPosition(top)) {
 			
-			points[top.x][top.y].setParent(points[x][y]);
-			open.insert(points[top.x][top.y]);
+			level.tiles[top.x][top.y].setParent(level.tiles[x][y]);
+			open.insert(level.tiles[top.x][top.y]);
 		}
 		
 		if (right.x < Game.WIDTH * Game.SCALE && isValidSearchPosition(right)) {
-			
-			points[right.x][right.y].setParent(points[x][y]);
-			open.insert(points[right.x][right.y]);
+
+            level.tiles[right.x][right.y].setParent(level.tiles[x][y]);
+			open.insert(level.tiles[right.x][right.y]);
 		}
 		
 		if (bottom.y < Game.HEIGHT * Game.SCALE && isValidSearchPosition(bottom)) {
-			
-			points[bottom.x][bottom.y].setParent(points[x][y]);
-			open.insert(points[bottom.x][bottom.y]);
+
+            level.tiles[bottom.x][bottom.y].setParent(level.tiles[x][y]);
+			open.insert(level.tiles[bottom.x][bottom.y]);
 		}
 		
 		if (left.x >= 0 && isValidSearchPosition(left)) {
-			
-			points[left.x][left.y].setParent(points[x][y]);
-			open.insert(points[left.x][left.y]);
+
+            level.tiles[left.x][left.y].setParent(level.tiles[x][y]);
+			open.insert(level.tiles[left.x][left.y]);
 		}
 		
 		if (topRight.x < Game.WIDTH * Game.SCALE && topRight.y >= 0 && isValidSearchPosition(topRight)) {
-			
-			points[topRight.x][topRight.y].setParent(points[x][y]);
-			open.insert(points[topRight.x][topRight.y]);
+
+            level.tiles[topRight.x][topRight.y].setParent(level.tiles[x][y]);
+			open.insert(level.tiles[topRight.x][topRight.y]);
 		}
 		
 		if (bottomRight.x < Game.WIDTH * Game.SCALE && bottomRight.y < Game.HEIGHT * Game.SCALE && isValidSearchPosition(bottomRight)) {
-			points[bottomRight.x][bottomRight.y].setParent(points[x][y]);
-			open.insert(points[bottomRight.x][bottomRight.y]);
+            level.tiles[bottomRight.x][bottomRight.y].setParent(level.tiles[x][y]);
+			open.insert(level.tiles[bottomRight.x][bottomRight.y]);
 		}
 		
 		if (bottomLeft.x >= 0 && bottomLeft.y < Game.WIDTH * Game.SCALE && isValidSearchPosition(bottomLeft)) {
-			points[bottomLeft.x][bottomRight.y].setParent(points[x][y]);
-			open.insert(points[bottomLeft.x][bottomRight.y]);
+            level.tiles[bottomLeft.x][bottomRight.y].setParent(level.tiles[x][y]);
+			open.insert(level.tiles[bottomLeft.x][bottomRight.y]);
 		}
 		
 		if (topLeft.x >= 0 && topLeft.y >= 0 && isValidSearchPosition(topLeft)) {
-			points[topLeft.x][topLeft.y].setParent(points[x][y]);
-			open.insert(points[topLeft.x][topLeft.y]);
+            level.tiles[topLeft.x][topLeft.y].setParent(level.tiles[x][y]);
+			open.insert(level.tiles[topLeft.x][topLeft.y]);
 		}
 	}
-	
+
 	public class Position implements Comparable<Position> {
 		public int x;
 		public int y;
 		private Position parent;
 		private int moveCost;
-		
+
 		public Position(Point p) {
 			x = p.x;
 			y = p.y;
 			parent = null;
 		}
-		
+
 		public Position(int x, int y) {
-			this.x = x; 
+			this.x = x;
 			this.y = y;
 			parent = null;
 		}
-		
+
 		public Position getParent() {
 			return parent;
 		}
-		
+
 		public void setParent(Position position) {
-			//System.out.println(this + " -> " + position);
 			parent = position;
 		}
-		
+
 		public int compareTo(Position p) {
 			return p.moveCost > moveCost ? -1 : p.moveCost < moveCost ? 1 : 0;
 		}
-		
+
 		public String toString() {
 			return String.format("(%d, %d)", x, y);
 		}
