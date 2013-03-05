@@ -2,15 +2,12 @@ package game.handlers;
 
 import game.Game;
 import game.entity.*;
+import game.graphics.Text;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 
 public class DamageEvent {
 
@@ -47,8 +44,9 @@ public class DamageEvent {
 		g.setColor(Color.RED);
 
 		String text = "-" + String.valueOf(damage);
-		g.drawString(text, hitUnit.getX(), point.y);
 
+        g.drawString(text, hitUnit.getX(), point.y);
+        g.drawImage(Text.getOutline(g, text, Color.BLACK), null, hitUnit.getX(), point.y);
 	}
 	
 }
