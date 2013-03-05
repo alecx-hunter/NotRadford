@@ -6,13 +6,35 @@ import game.graphics.Level;
 import java.awt.Point;
 import java.util.ArrayList;
 
+/**
+ * This class is used to generate paths from one point to another.
+ * Path generation is created using the A* algorithm
+ */
+
 public class Path {
 
+    /**
+     * The final path
+     */
     private ArrayList<Tile> path;
+    /**
+     * The tiles that are part of the "closed" list
+     */
     private ArrayList<Tile> closed;
+    /**
+     * The tiles that are available to be searched
+     * Stored in a Heap for the fastest searching
+     */
     private Heap<Tile> open;
+    /**
+     * The level the path is being searched on
+     */
     private Level level;
-	
+
+    /**
+     * Must pass in a Level to create a Path
+     * @param l The level the path should generate
+     */
 	public Path(Level l) {
 		path = new ArrayList<Tile>();
 		open = new Heap<Tile>();
@@ -20,7 +42,11 @@ public class Path {
 	
 		level = l;		
 	}
-	
+
+    /**
+     * Used to "pop" individual tiles off the final stack
+     * @return The next Point to move to
+     */
 	public Point getNext() {
 		if (path == null || path.size() == 0)
 			return null;
@@ -37,13 +63,11 @@ public class Path {
         Tile end = new Tile(endx, endy);
         Tile current = new Tile(start.x, start.y);
 
-        long startTime = System.currentTimeMillis();
 		for (int x = 0; x < Game.WIDTH*Game.SCALE; x++)
 			for (int y = 0; y < Game.HEIGHT*Game.SCALE; y++) {
 				level.tiles[x][y].calcCost(endx, endy);
 			}
 
-        System.out.println("It took " + (System.currentTimeMillis() - startTime) + "ms to find the path");
 		start = level.tiles[startx][starty];
 		end = level.tiles[endx][endy];
 		current = new Tile(start.x, start.y);
