@@ -14,6 +14,8 @@ public class CircleProjectile extends Projectile {
         HEIGHT = size;
         this.power = power;
         this.speed = speed;
+
+        init();
     }
 
     public void render(Graphics2D g) {

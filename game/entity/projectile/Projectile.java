@@ -45,22 +45,22 @@ public abstract class Projectile extends Entity {
      */
     public void checkCollision() {
         if (position.x < 0 || position.x > MAX_X || position.y < 0 || position.y > MAX_Y)
-            game.removeProjectile(this);
+            game.removeEntity(this);
 
         bounds = new Rectangle(getX(), getY(), WIDTH, HEIGHT);
 
         ArrayList<Entity> entities = game.getEntities();
-        for (Entity e : entities) {
+        for (int i = 0; i < entities.size(); i++) {
+            Entity e = entities.get(i);
+
             if ((e.isPlayer() && owner.isPlayer()) || e.isProjectile())
                 continue;
-            if (!e.isPlayer() && owner.isPlayer())
+            if (e.isEnemy() && owner.isPlayer())
                 if (e.getBounds().intersects(bounds)) {
-                    game.removeProjectile(this);
+                    game.removeEntity(this);
                     dealDamage(e);
-                }
-            if (e.isPlayer() && !owner.isPlayer())
-                if (e.getBounds().intersects(bounds)) {
-                    game.removeProjectile(this);
+                } else if (e.getBounds().intersects(bounds)) {
+                    game.removeEntity(this);
                     dealDamage(e);
                 }
         }

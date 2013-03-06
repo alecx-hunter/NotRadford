@@ -41,7 +41,7 @@ public class Player extends Entity {
     }
 
     public void sendProjectile(Direction d) {
-        game.addProjectile(new CircleProjectile(getCenterX(), getCenterY(), game, this, d, 7, 1, 8));
+        game.addEntity(new CircleProjectile(getCenterX(), getCenterY(), game, this, d, 7, 1, 8));
     }
 
     public void update(double diff) {

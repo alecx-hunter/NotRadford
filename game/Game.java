@@ -3,7 +3,6 @@ package game;
 import game.entity.Enemy;
 import game.entity.Entity;
 import game.entity.Player;
-import game.entity.projectile.Projectile;
 import game.graphics.Level;
 import game.handlers.InputHandler;
 import game.logging.Log;
@@ -24,7 +23,7 @@ public class Game extends Canvas implements Runnable {
     public static final int SCALE = 8;
 
     private Player player;
-    private ArrayList<Projectile> projectiles;
+    //private ArrayList<Projectile> projectiles;
     private ArrayList<Entity> entities;
 
     private boolean isRunning;
@@ -47,7 +46,7 @@ public class Game extends Canvas implements Runnable {
         frame.setVisible(true);
         frame.setAlwaysOnTop(true);
 
-        projectiles = new ArrayList<Projectile>();
+        //projectiles = new ArrayList<Projectile>();
         entities = new ArrayList<Entity>();
         Level level = new Level();
         player = new Player(0, 0, this);
@@ -58,14 +57,6 @@ public class Game extends Canvas implements Runnable {
         player.setInput(input);
 
         start();
-    }
-
-    public void addProjectile(Projectile p) {
-        projectiles.add(p);
-    }
-
-    public void removeProjectile(Projectile p) {
-        projectiles.remove(p);
     }
 
     public void addEntity(Entity e) {
@@ -112,8 +103,6 @@ public class Game extends Canvas implements Runnable {
     public void update(double diff) {
         for (int i = 0; i < entities.size(); i++)
             entities.get(i).update(diff);
-        for (int i = 0; i < projectiles.size(); i++)
-            projectiles.get(i).update(diff);
     }
 
     public void paint() {
@@ -131,8 +120,6 @@ public class Game extends Canvas implements Runnable {
 
         for (int i = 0; i < entities.size(); i++)
             entities.get(i).render(g);
-        for (int i = 0; i < projectiles.size(); i++)
-            projectiles.get(i).render(g);
 
         boolean debug = true;
         if (debug) {

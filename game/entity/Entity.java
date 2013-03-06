@@ -135,4 +135,8 @@ public abstract class Entity {
     public boolean isProjectile() {
         return getClass().equals(Projectile.class);
     }
+
+    public boolean isEnemy() {
+        return getClass().equals(Enemy.class);
+    }
 }
