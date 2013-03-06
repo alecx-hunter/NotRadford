@@ -39,7 +39,7 @@ public class Enemy extends Entity {
         if (searchTimer <= diff) {
             path.generatePath(position.x, position.y, target.getX(), target.getY());
 
-            searchTimer = 1000;
+            searchTimer = 500;
         } else searchTimer -= diff;
         if (path != null && distanceTo(target) > 25.0)
             traversePath(path);
