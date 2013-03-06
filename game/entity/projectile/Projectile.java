@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public abstract class Projectile extends Entity {
 
-    protected int speed, power, width, height;
+    protected int speed, power;
     private Entity owner;
     protected Direction direction;
 
@@ -16,8 +16,6 @@ public abstract class Projectile extends Entity {
         super(x, y, game);
         this.owner = owner;
         this.direction = direction;
-        MAX_X = (Game.WIDTH * Game.SCALE) - width + 10;
-        MAX_Y = (Game.HEIGHT * Game.SCALE) - height + 10;
     }
 
     /**
@@ -49,7 +47,7 @@ public abstract class Projectile extends Entity {
         if (position.x < 0 || position.x > MAX_X || position.y < 0 || position.y > MAX_Y)
             game.removeProjectile(this);
 
-        bounds = new Rectangle(getX(), getY(), width, height);
+        bounds = new Rectangle(getX(), getY(), WIDTH, HEIGHT);
 
         ArrayList<Entity> entities = game.getEntities();
         for (Entity e : entities) {
@@ -95,22 +93,6 @@ public abstract class Projectile extends Entity {
 
     public void setPower(int power) {
         this.power = power;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
     }
 
 }
