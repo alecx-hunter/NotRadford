@@ -40,13 +40,16 @@ public class DamageEvent {
 		return ticks;
 	}
 	
-	public void render(Graphics2D g) {	
-		g.setColor(Color.RED);
-
+	public void render(Graphics2D g) {
 		String text = "-" + String.valueOf(damage);
 
+        Font prev = g.getFont();
+        g.setFont(new Font(prev.getFontName(), Font.PLAIN, 16));
+
+        Text.drawOutline(g, text, Color.BLACK, hitUnit.getX(), point.y);
+        g.setColor(Color.RED);
         g.drawString(text, hitUnit.getX(), point.y);
-        g.drawImage(Text.getOutline(g, text, Color.BLACK), null, hitUnit.getX(), point.y);
+        g.setFont(prev);
 	}
 	
 }

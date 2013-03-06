@@ -6,16 +6,12 @@ import java.awt.image.BufferedImage;
 
 public class Text {
 
-    public static BufferedImage getOutline(Graphics2D g, String text, Color color) {
-        TextLayout tl = new TextLayout(text, g.getFont(), g.getFontRenderContext());
-        Shape s = tl.getOutline(null);
-
-        BufferedImage img = new BufferedImage(s.getBounds().width, s.getBounds().height, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2 = img.createGraphics();
-        g2.setColor(color);
-        g2.draw(s);
-        g2.dispose();
-        return img;
+    public static void drawOutline(Graphics2D g, String text, Color color, int x, int y) {
+        g.setColor(color);
+        g.drawString(text, x - 1, y - 1);
+        g.drawString(text, x - 1, y + 1);
+        g.drawString(text, x + 1, y - 1);
+        g.drawString(text, x + 1, y + 1);
     }
 
 }

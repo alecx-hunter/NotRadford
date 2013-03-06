@@ -6,12 +6,7 @@ import game.handlers.*;
 import game.graphics.*;
 import game.logging.*;
 
-import java.awt.BorderLayout;
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
@@ -128,6 +123,7 @@ public class Game extends Canvas implements Runnable {
         }
 
         Graphics2D g = (Graphics2D)bs.getDrawGraphics();
+
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
         g.clearRect(0, 0, getWidth(), getHeight());
