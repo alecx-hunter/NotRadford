@@ -1,18 +1,19 @@
 package game;
 
-import game.entity.*;
-import game.entity.projectile.*;
-import game.handlers.*;
-import game.graphics.*;
-import game.logging.*;
+import game.entity.Enemy;
+import game.entity.Entity;
+import game.entity.Player;
+import game.entity.projectile.Projectile;
+import game.graphics.Level;
+import game.handlers.InputHandler;
+import game.logging.Log;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.util.ArrayList;
-
-import javax.swing.*;
 
 public class Game extends Canvas implements Runnable {
 
@@ -23,17 +24,17 @@ public class Game extends Canvas implements Runnable {
     public static final int SCALE = 8;
 
     private Player player;
-    private ArrayList<Projectiles> projectiles;
+    private ArrayList<Projectile> projectiles;
     private ArrayList<Entity> entities;
 
     private boolean isRunning;
     private BufferedImage image = new BufferedImage(WIDTH * SCALE, HEIGHT * SCALE, BufferedImage.TYPE_INT_RGB);
-    public int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
+    public int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 
     public Game() {
-        setMaximumSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
-        setMinimumSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
-        setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
+        setMaximumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
+        setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
+        setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -46,7 +47,7 @@ public class Game extends Canvas implements Runnable {
         frame.setVisible(true);
         frame.setAlwaysOnTop(true);
 
-        projectiles = new ArrayList<Projectiles>();
+        projectiles = new ArrayList<Projectile>();
         entities = new ArrayList<Entity>();
         Level level = new Level();
         player = new Player(0, 0, this);
@@ -59,11 +60,11 @@ public class Game extends Canvas implements Runnable {
         start();
     }
 
-    public void addProjectile(Projectiles p) {
+    public void addProjectile(Projectile p) {
         projectiles.add(p);
     }
 
-    public void removeProjectile(Projectiles p) {
+    public void removeProjectile(Projectile p) {
         projectiles.remove(p);
     }
 
@@ -90,10 +91,10 @@ public class Game extends Canvas implements Runnable {
 
     public void run() {
         long last = System.nanoTime();
-        double ns = 1000000000.0/60.0;
+        double ns = 1000000000.0 / 60.0;
         double timeDiff = 0;
 
-        while(isRunning) {
+        while (isRunning) {
             long now = System.nanoTime();
             timeDiff += (now - last) / ns;
             last = now;
@@ -122,7 +123,7 @@ public class Game extends Canvas implements Runnable {
             return;
         }
 
-        Graphics2D g = (Graphics2D)bs.getDrawGraphics();
+        Graphics2D g = (Graphics2D) bs.getDrawGraphics();
 
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
@@ -136,7 +137,7 @@ public class Game extends Canvas implements Runnable {
         boolean debug = true;
         if (debug) {
             g.setColor(Color.RED);
-            Log.debug(g, player.getX() + ", " + player.getY(), 5, HEIGHT*SCALE - 10);
+            Log.debug(g, player.getX() + ", " + player.getY(), 5, HEIGHT * SCALE - 10);
         }
 
         g.dispose();

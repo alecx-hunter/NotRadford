@@ -1,15 +1,11 @@
 package game.entity;
 
 import game.Game;
-import game.entity.*;
 import game.graphics.Level;
 import game.handlers.DamageEvent;
 import game.pathfinding.Path;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
+import java.awt.*;
 
 public class Enemy extends Entity {
 
@@ -20,8 +16,8 @@ public class Enemy extends Entity {
     public Enemy(int x, int y, Game game, Player player, Level level) {
         super(x, y, game);
 
-        WIDTH = 20;
-        HEIGHT = 20;
+        WIDTH = 56;
+        HEIGHT = 56;
         bounds = new Rectangle(position, new Dimension(WIDTH, HEIGHT));
         speed = 3;
         health = 10;
