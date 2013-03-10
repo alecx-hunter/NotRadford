@@ -17,6 +17,11 @@ public class Path {
      * The final path
      */
     private ArrayList<Tile> path;
+
+    /**
+     * The target position
+     */
+    private Tile end;
     /**
      * The tiles that are part of the "closed" list
      */
@@ -60,13 +65,8 @@ public class Path {
 		closed.clear();
 
         Tile start = new Tile(startx, starty);
-        Tile end = new Tile(endx, endy);
+        end = new Tile(endx, endy);
         Tile current = new Tile(start.x, start.y);
-
-		for (int x = 0; x < Game.WIDTH*Game.SCALE; x++)
-			for (int y = 0; y < Game.HEIGHT*Game.SCALE; y++) {
-				level.tiles[x][y].calcCost(endx, endy);
-			}
 
 		start = level.tiles[startx][starty];
 		end = level.tiles[endx][endy];
@@ -112,47 +112,50 @@ public class Path {
 		Point topLeft = new Point(x - 1, y - 1);
 
 		if (top.y >= 0 && isValidSearchPosition(top)) {
-			
 			level.tiles[top.x][top.y].setParent(level.tiles[x][y]);
+            level.tiles[top.x][top.y].calcCost(end.x, end.y);
 			open.insert(level.tiles[top.x][top.y]);
 		}
 		
 		if (right.x < Game.WIDTH * Game.SCALE && isValidSearchPosition(right)) {
-
             level.tiles[right.x][right.y].setParent(level.tiles[x][y]);
+            level.tiles[right.x][right.y].calcCost(end.x, end.y);
 			open.insert(level.tiles[right.x][right.y]);
 		}
 		
 		if (bottom.y < Game.HEIGHT * Game.SCALE && isValidSearchPosition(bottom)) {
-
             level.tiles[bottom.x][bottom.y].setParent(level.tiles[x][y]);
+            level.tiles[bottom.x][bottom.y].calcCost(end.x, end.y);
 			open.insert(level.tiles[bottom.x][bottom.y]);
 		}
 		
 		if (left.x >= 0 && isValidSearchPosition(left)) {
-
             level.tiles[left.x][left.y].setParent(level.tiles[x][y]);
+            level.tiles[left.x][left.y].calcCost(end.x, end.y);
 			open.insert(level.tiles[left.x][left.y]);
 		}
 		
 		if (topRight.x < Game.WIDTH * Game.SCALE && topRight.y >= 0 && isValidSearchPosition(topRight)) {
-
             level.tiles[topRight.x][topRight.y].setParent(level.tiles[x][y]);
+            level.tiles[topRight.x][topRight.y].calcCost(end.x, end.y);
 			open.insert(level.tiles[topRight.x][topRight.y]);
 		}
 		
 		if (bottomRight.x < Game.WIDTH * Game.SCALE && bottomRight.y < Game.HEIGHT * Game.SCALE && isValidSearchPosition(bottomRight)) {
             level.tiles[bottomRight.x][bottomRight.y].setParent(level.tiles[x][y]);
+            level.tiles[bottomRight.x][bottomRight.y].calcCost(end.x, end.y);
 			open.insert(level.tiles[bottomRight.x][bottomRight.y]);
 		}
 		
 		if (bottomLeft.x >= 0 && bottomLeft.y < Game.WIDTH * Game.SCALE && isValidSearchPosition(bottomLeft)) {
             level.tiles[bottomLeft.x][bottomRight.y].setParent(level.tiles[x][y]);
+            level.tiles[bottomLeft.x][bottomLeft.y].calcCost(end.x, end.y);
 			open.insert(level.tiles[bottomLeft.x][bottomRight.y]);
 		}
 		
 		if (topLeft.x >= 0 && topLeft.y >= 0 && isValidSearchPosition(topLeft)) {
             level.tiles[topLeft.x][topLeft.y].setParent(level.tiles[x][y]);
+            level.tiles[topLeft.x][topLeft.y].calcCost(end.x, end.y);
 			open.insert(level.tiles[topLeft.x][topLeft.y]);
 		}
 	}
