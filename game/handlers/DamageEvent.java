@@ -9,12 +9,13 @@ public class DamageEvent {
 
     private final Entity hitUnit;
     private int y;
-    private final int damage;
+    private final int damage, x;
     private int ticks;
 
     public DamageEvent(Entity hit, int damage) {
         hitUnit = hit;
         y = hitUnit.getY();
+        x = hitUnit.getCenterX();
         this.damage = damage;
         ticks = 30;
     }
@@ -40,11 +41,11 @@ public class DamageEvent {
         String text = "-" + String.valueOf(damage);
 
         Font prev = g.getFont();
-        g.setFont(new Font(prev.getFontName(), Font.PLAIN, 16));
+        g.setFont(new Font(prev.getFontName(), Font.BOLD, 16));
 
-        Text.drawOutline(g, text, Color.BLACK, hitUnit.getCenterX(), y);
+        Text.drawOutline(g, text, Color.BLACK, x, y);
         g.setColor(Color.RED);
-        g.drawString(text, hitUnit.getCenterX(), y);
+        g.drawString(text, x, y);
         g.setFont(prev);
     }
 
