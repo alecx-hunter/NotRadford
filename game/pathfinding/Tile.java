@@ -60,7 +60,7 @@ public class Tile implements Comparable<Tile> {
     }
 
     public void calcCost(int x, int y) {
-        moveCost = Math.abs(this.x - x) + Math.abs(this.y - y);
+        moveCost = Math.max(Math.abs(this.x - x), Math.abs(this.y - y));
     }
 
     public int getCost() {
