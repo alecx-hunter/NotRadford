@@ -43,8 +43,8 @@ public class DamageEvent {
         Font prev = g.getFont();
         g.setFont(new Font(prev.getFontName(), Font.BOLD, 16));
 
-        Text.drawOutline(g, text, Color.BLACK, x, y);
         g.setColor(Color.RED);
+        Text.drawShadow(g, text, Text.BOTTOM_RIGHT, x, y);
         g.drawString(text, x, y);
         g.setFont(prev);
     }
