@@ -8,9 +8,9 @@ import game.pathfinding.Path;
 import java.awt.*;
 import java.util.ArrayList;
 
-public abstract class Entity {
+public class Entity {
 
-    protected enum Direction {
+    public enum Direction {
         UP, DOWN, LEFT, RIGHT
     }
 
@@ -124,9 +124,20 @@ public abstract class Entity {
         return health;
     }
 
-    public abstract void update(double diff);
+    public void update(double diff) {
+        bounds = new Rectangle(position, new Dimension(WIDTH, HEIGHT));
 
-    public abstract void render(Graphics2D g);
+        for (DamageEvent de : damageEvents)
+            de.tick();
+        for (int i = 0; i < damageEvents.size(); i++)
+            if (damageEvents.get(i).getTicks() < 0)
+                damageEvents.remove(i);
+    }
+
+    public void render(Graphics2D g) {
+        for (DamageEvent de : damageEvents)
+            de.render(g);
+    }
 
     public boolean isPlayer() {
         return getClass().equals(Player.class);

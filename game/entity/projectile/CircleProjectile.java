@@ -19,11 +19,15 @@ public class CircleProjectile extends Projectile {
     }
 
     public void render(Graphics2D g) {
+        super.render(g);
+
         g.setColor(Color.RED);
         g.fillOval(getX(), getY(), WIDTH, HEIGHT);
     }
 
     public void update(double diff) {
+        super.update(diff);
+
         move(direction);
         checkCollision();
     }

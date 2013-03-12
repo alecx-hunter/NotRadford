@@ -1,5 +1,7 @@
 package game;
 
+import game.ai.BeginnerAI;
+import game.ai.EnemyAI;
 import game.entity.Enemy;
 import game.entity.Entity;
 import game.entity.Player;
@@ -23,7 +25,6 @@ public class Game extends Canvas implements Runnable {
     public static final int SCALE = 8;
 
     private Player player;
-    //private ArrayList<Projectile> projectiles;
     private ArrayList<Entity> entities;
 
     private boolean isRunning;
@@ -46,17 +47,20 @@ public class Game extends Canvas implements Runnable {
         frame.setVisible(true);
         frame.setAlwaysOnTop(true);
 
-        //projectiles = new ArrayList<Projectile>();
         entities = new ArrayList<Entity>();
         Level level = new Level();
         player = new Player(0, 0, this);
-        entities.add(new Enemy(500, 500, this, player, level));
+        entities.add(new Enemy(500, 500, this, level, EnemyAI.AI.BEGINNER));
         entities.add(player);
 
         InputHandler input = new InputHandler(this, player);
         player.setInput(input);
 
         start();
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     public void addEntity(Entity e) {

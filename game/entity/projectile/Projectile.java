@@ -2,6 +2,7 @@ package game.entity.projectile;
 
 import game.Game;
 import game.entity.Entity;
+import game.logging.Log;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -47,8 +48,6 @@ public abstract class Projectile extends Entity {
         if (position.x < 0 || position.x > MAX_X || position.y < 0 || position.y > MAX_Y)
             game.removeEntity(this);
 
-        bounds = new Rectangle(getX(), getY(), WIDTH, HEIGHT);
-
         ArrayList<Entity> entities = game.getEntities();
         for (int i = 0; i < entities.size(); i++) {
             Entity e = entities.get(i);
@@ -59,10 +58,14 @@ public abstract class Projectile extends Entity {
                 if (e.getBounds().intersects(bounds)) {
                     game.removeEntity(this);
                     dealDamage(e);
-                } else if (e.getBounds().intersects(bounds)) {
+                }
+            if (e.isPlayer() && owner.isEnemy())
+                if (e.getBounds().intersects(bounds)) {
                     game.removeEntity(this);
                     dealDamage(e);
                 }
+
+
         }
     }
 

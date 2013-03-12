@@ -2,6 +2,7 @@ package game.entity;
 
 import game.Game;
 import game.entity.projectile.CircleProjectile;
+import game.handlers.DamageEvent;
 import game.handlers.InputHandler;
 
 import javax.imageio.ImageIO;
@@ -41,11 +42,11 @@ public class Player extends Entity {
     }
 
     public void sendProjectile(Direction d) {
-        game.addEntity(new CircleProjectile(getCenterX(), getCenterY(), game, this, d, 7, 1, 8));
+        game.addEntity(new CircleProjectile(getCenterX(), getCenterY(), game, this, d, 7, 3, 8));
     }
 
     public void update(double diff) {
-        bounds = new Rectangle(position, new Dimension(WIDTH, HEIGHT));
+        super.update(diff);
 
         if (shootTimer <= diff) {
             if (input.keys[KeyEvent.VK_UP])
@@ -56,7 +57,7 @@ public class Player extends Entity {
                 sendProjectile(Direction.LEFT);
             else if (input.keys[KeyEvent.VK_RIGHT])
                 sendProjectile(Direction.RIGHT);
-            shootTimer = 100;
+            shootTimer = 500;
 
         } else shootTimer -= diff;
 
@@ -77,6 +78,8 @@ public class Player extends Entity {
     }
 
     public void render(Graphics2D g) {
+        super.render(g);
+
         g.setColor(Color.BLACK);
         g.fillRect(getX(), getY(), WIDTH, HEIGHT);
 
