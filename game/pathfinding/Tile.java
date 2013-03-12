@@ -63,10 +63,6 @@ public class Tile implements Comparable<Tile> {
         moveCost = Math.max(Math.abs(this.x - x), Math.abs(this.y - y));
     }
 
-    public int getCost() {
-        return moveCost;
-    }
-
     public boolean isTraversable() {
         return traversable;
     }
