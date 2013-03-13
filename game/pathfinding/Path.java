@@ -3,7 +3,7 @@ package game.pathfinding;
 import game.Game;
 import game.graphics.Level;
 
-import java.awt.Point;
+import java.awt.*;
 import java.util.ArrayList;
 
 /**

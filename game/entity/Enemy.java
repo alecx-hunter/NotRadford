@@ -1,11 +1,11 @@
 package game.entity;
 
 import game.Game;
+import game.ai.AI;
 import game.ai.BeginnerAI;
 import game.ai.EnemyAI;
 import game.entity.projectile.CircleProjectile;
 import game.graphics.Level;
-import game.handlers.DamageEvent;
 import game.pathfinding.Path;
 
 import java.awt.*;
@@ -16,7 +16,7 @@ public class Enemy extends Entity {
     private Path path;
     private EnemyAI enemyAI;
 
-    public Enemy(int x, int y, Game game, Level level, EnemyAI.AI ai) {
+    public Enemy(int x, int y, Game game, Level level, AI ai) {
         super(x, y, game);
 
         WIDTH = 56;

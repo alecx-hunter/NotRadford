@@ -1,6 +1,7 @@
 package game.entity.projectile;
 
 import game.Game;
+import game.entity.Direction;
 import game.entity.Entity;
 
 import java.awt.*;

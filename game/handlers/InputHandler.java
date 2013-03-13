@@ -1,7 +1,7 @@
 package game.handlers;
 
 import game.Game;
-import game.entity.*;
+import game.entity.Player;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

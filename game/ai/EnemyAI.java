@@ -1,6 +1,7 @@
 package game.ai;
 
 
+import game.entity.Direction;
 import game.entity.Enemy;
 import game.entity.Entity;
 
@@ -8,10 +9,6 @@ public abstract class EnemyAI {
 
     protected Enemy me;
     protected double shootTimer;
-
-    public enum AI {
-        BEGINNER
-    }
 
     public EnemyAI(Enemy enemy) {
         me = enemy;
@@ -23,16 +20,16 @@ public abstract class EnemyAI {
 
         if (Math.abs(dx) < Math.abs(dy)) {
             if (dy < 0)
-                me.shoot(Entity.Direction.DOWN);
+                me.shoot(Direction.DOWN);
             else
-                me.shoot(Entity.Direction.UP);
+                me.shoot(Direction.UP);
         }
         // This includes the case where they are equal
         else {
             if (dx < 0)
-                me.shoot(Entity.Direction.RIGHT);
+                me.shoot(Direction.RIGHT);
             else
-                me.shoot(Entity.Direction.LEFT);
+                me.shoot(Direction.LEFT);
         }
     }
 

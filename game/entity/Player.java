@@ -2,7 +2,6 @@ package game.entity;
 
 import game.Game;
 import game.entity.projectile.CircleProjectile;
-import game.handlers.DamageEvent;
 import game.handlers.InputHandler;
 
 import javax.imageio.ImageIO;

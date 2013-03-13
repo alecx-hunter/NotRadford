@@ -3,8 +3,6 @@ package game.graphics;
 import game.Game;
 import game.pathfinding.Tile;
 
-import java.awt.Point;
-
 public class Level {
 
 	private static final int WIDTH = Game.WIDTH*Game.SCALE;

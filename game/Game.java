@@ -1,7 +1,6 @@
 package game;
 
-import game.ai.BeginnerAI;
-import game.ai.EnemyAI;
+import game.ai.AI;
 import game.entity.Enemy;
 import game.entity.Entity;
 import game.entity.Player;
@@ -50,7 +49,7 @@ public class Game extends Canvas implements Runnable {
         entities = new ArrayList<Entity>();
         Level level = new Level();
         player = new Player(0, 0, this);
-        entities.add(new Enemy(500, 500, this, level, EnemyAI.AI.BEGINNER));
+        entities.add(new Enemy(500, 500, this, level, AI.BEGINNER));
         entities.add(player);
 
         InputHandler input = new InputHandler(this, player);

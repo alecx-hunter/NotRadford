@@ -1,10 +1,9 @@
 package game.entity.projectile;
 
 import game.Game;
+import game.entity.Direction;
 import game.entity.Entity;
-import game.logging.Log;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public abstract class Projectile extends Entity {

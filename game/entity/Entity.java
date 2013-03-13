@@ -10,10 +10,6 @@ import java.util.ArrayList;
 
 public class Entity {
 
-    public enum Direction {
-        UP, DOWN, LEFT, RIGHT
-    }
-
     public int WIDTH;
     public int HEIGHT;
     protected int MAX_X;

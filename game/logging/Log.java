@@ -1,10 +1,7 @@
 package game.logging;
 
-import game.graphics.Text;
-
+import javax.swing.*;
 import java.awt.*;
-
-import javax.swing.JOptionPane;
 
 public class Log {
 
