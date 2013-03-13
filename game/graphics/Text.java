@@ -8,11 +8,6 @@ import java.awt.*;
  */
 public class Text {
 
-    public static final int TOP_RIGHT = 0;
-    public static final int TOP_LEFT = 1;
-    public static final int BOTTOM_RIGHT = 2;
-    public static final int BOTTOM_LEFT = 3;
-
     public static void drawOutline(Graphics2D g, String text, Color color, int x, int y) {
         Color prev = g.getColor();
         g.setColor(color);
@@ -23,11 +18,11 @@ public class Text {
         g.setColor(prev);
     }
 
-    public static void drawShadow(Graphics2D g, String text, int textPosition, int x, int y) {
+    public static void drawShadow(Graphics2D g, String text, Shadow position, int x, int y) {
         Color prev = g.getColor();
         g.setColor(Color.BLACK);
 
-        switch(textPosition) {
+        switch(position) {
             case TOP_RIGHT:
                 g.drawString(text, x + 1, y - 1);
                 break;

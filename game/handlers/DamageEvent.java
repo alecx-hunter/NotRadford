@@ -1,6 +1,7 @@
 package game.handlers;
 
 import game.entity.Entity;
+import game.graphics.Shadow;
 import game.graphics.Text;
 
 import java.awt.*;
@@ -44,7 +45,7 @@ public class DamageEvent {
         g.setFont(new Font(prev.getFontName(), Font.BOLD, 16));
 
         g.setColor(Color.RED);
-        Text.drawShadow(g, text, Text.BOTTOM_RIGHT, x, y);
+        Text.drawShadow(g, text, Shadow.BOTTOM_RIGHT, x, y);
         g.drawString(text, x, y);
         g.setFont(prev);
     }
