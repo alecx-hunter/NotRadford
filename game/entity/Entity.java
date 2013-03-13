@@ -8,7 +8,7 @@ import game.pathfinding.Path;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Entity {
+public abstract class Entity {
 
     public int WIDTH;
     public int HEIGHT;
