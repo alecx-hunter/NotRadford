@@ -1,6 +1,7 @@
 package game.entity;
 
 import game.Game;
+import game.State;
 import game.entity.projectile.CircleProjectile;
 import game.handlers.InputHandler;
 
@@ -74,6 +75,9 @@ public class Player extends Entity {
             move(Direction.LEFT, directions > 1);
         if (input.keys[KeyEvent.VK_D])
             move(Direction.RIGHT, directions > 1);
+
+        if (health == 0)
+            game.reset();
     }
 
     public void render(Graphics2D g) {

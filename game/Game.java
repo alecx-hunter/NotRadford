@@ -5,11 +5,15 @@ import game.entity.Enemy;
 import game.entity.Entity;
 import game.entity.Player;
 import game.graphics.Level;
+import game.graphics.Screen;
 import game.handlers.InputHandler;
 import game.logging.Log;
 
 import javax.swing.*;
+import javax.swing.event.MouseInputListener;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
@@ -25,10 +29,13 @@ public class Game extends Canvas implements Runnable {
 
     private Player player;
     private ArrayList<Entity> entities;
+    private Screen screen;
 
     private boolean isRunning;
     private BufferedImage image = new BufferedImage(WIDTH * SCALE, HEIGHT * SCALE, BufferedImage.TYPE_INT_RGB);
     public int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
+
+    private State state;
 
     public Game() {
         setMaximumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
@@ -46,6 +53,12 @@ public class Game extends Canvas implements Runnable {
         frame.setVisible(true);
         frame.setAlwaysOnTop(true);
 
+        init();
+
+        start();
+    }
+
+    public void init() {
         entities = new ArrayList<Entity>();
         Level level = new Level();
         player = new Player(0, 0, this);
@@ -54,8 +67,17 @@ public class Game extends Canvas implements Runnable {
 
         InputHandler input = new InputHandler(this, player);
         player.setInput(input);
+        screen = new Screen(this, input);
 
-        start();
+        state = State.MAIN_SCREEN;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
     }
 
     public Player getPlayer() {
@@ -74,6 +96,10 @@ public class Game extends Canvas implements Runnable {
         return entities;
     }
 
+    public void reset() {
+        init();
+    }
+
     public void start() {
         isRunning = true;
         new Thread(this).start();
@@ -81,9 +107,12 @@ public class Game extends Canvas implements Runnable {
 
     public void stop() {
         isRunning = false;
+        System.exit(0);
     }
 
     public void run() {
+        state = State.MAIN_SCREEN;
+
         long last = System.nanoTime();
         double ns = 1000000000.0 / 60.0;
         double timeDiff = 0;
@@ -104,8 +133,14 @@ public class Game extends Canvas implements Runnable {
     }
 
     public void update(double diff) {
-        for (int i = 0; i < entities.size(); i++)
-            entities.get(i).update(diff);
+        switch (state) {
+            case MAIN_SCREEN:
+                break;
+            case PLAYING:
+                for (int i = 0; i < entities.size(); i++)
+                    entities.get(i).update(diff);
+                break;
+        }
     }
 
     public void paint() {
@@ -121,18 +156,24 @@ public class Game extends Canvas implements Runnable {
                 RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
         g.clearRect(0, 0, getWidth(), getHeight());
 
-        for (int i = 0; i < entities.size(); i++)
-            entities.get(i).render(g);
+        switch(state) {
+            case MAIN_SCREEN:
+                screen.render(g);
+                break;
+            case PLAYING:
+                for (int i = 0; i < entities.size(); i++)
+                    entities.get(i).render(g);
 
-        boolean debug = true;
-        if (debug) {
-            g.setColor(Color.RED);
-            Log.debug(g, player.getX() + ", " + player.getY(), 5, HEIGHT * SCALE - 10);
+                boolean debug = true;
+                if (debug) {
+                    g.setColor(Color.RED);
+                    Log.debug(g, player.getX() + ", " + player.getY(), 5, HEIGHT * SCALE - 10);
+                }
+                break;
         }
 
         g.dispose();
 
         bs.show();
     }
-
 }
