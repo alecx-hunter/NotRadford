@@ -20,7 +20,7 @@ public class Enemy extends Entity {
         HEIGHT = 56;
         bounds = new Rectangle(position, new Dimension(WIDTH, HEIGHT));
         speed = 3;
-        health = 100;
+        maxHealth = 100;
 
         switch (ai) {
             case BEGINNER:

@@ -20,7 +20,7 @@ public class Player extends Entity {
         HEIGHT = 56;
         bounds = new Rectangle(position, new Dimension(WIDTH, HEIGHT));
         speed = 4;
-        health = 3;
+        maxHealth = 3;
 
         shootTimer = 500;
 

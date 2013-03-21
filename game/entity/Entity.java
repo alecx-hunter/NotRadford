@@ -17,6 +17,7 @@ public abstract class Entity {
 
     protected Point position;
     protected int health;
+    protected int maxHealth;
     protected int speed;
     protected Rectangle bounds;
     protected Game game;
@@ -28,9 +29,15 @@ public abstract class Entity {
         damageEvents = new ArrayList<DamageEvent>();
     }
 
+    /**
+     * Must be called at the end of the child constructor to initialize the
+     * MAX_X and MAX_Y variables
+     */
     public void init() {
         MAX_X = (Game.WIDTH * Game.SCALE) - WIDTH + 10;
         MAX_Y = (Game.HEIGHT * Game.SCALE) - HEIGHT + 10;
+
+        health = maxHealth;
     }
 
     public Rectangle getBounds() {
@@ -57,14 +64,26 @@ public abstract class Entity {
         return new Point(position.x + (WIDTH / 2), position.y + (HEIGHT / 2));
     }
 
+    /**
+     * @return The center X coordinate of this entity
+     */
     public int getCenterX() {
         return getCenterPosition().x;
     }
 
+    /**
+     * @return The center Y coordinate of this entity
+     */
     public int getCenterY() {
         return getCenterPosition().y;
     }
 
+    /**
+     * Moves the entity in the specified Direction
+     *
+     * @param d                The Direction in which to move
+     * @param multipleMovement Whether or not this entity will be moving in more than one direction (Diagonal)
+     */
     public void move(Direction d, boolean multipleMovement) {
         int mod = multipleMovement ? 2 : 1;
 
@@ -84,10 +103,16 @@ public abstract class Entity {
         }
     }
 
+    /**
+     * Moves the entity along the path specified
+     *
+     * @param path The path the entity is to follow
+     */
     public void traversePath(Path path) {
         Point p;
-        int directions = 0;
         if ((p = path.getNext()) != null) {
+            int directions = 0;
+
             if (getX() < p.x) directions++;
             if (getX() > p.x) directions++;
             if (getY() < p.y) directions++;
@@ -104,10 +129,23 @@ public abstract class Entity {
         }
     }
 
+    /**
+     * Returns the euclidean distance between two entities
+     * sqrt((x1 - x2)^2 + (y1 - y2)^2)
+     *
+     * @param e The entity to get the distance between
+     * @return Returns the
+     */
     public double distanceTo(Entity e) {
-        return Math.sqrt(Math.pow(Math.abs(e.getCenterX() - getCenterX()), 2.0) + Math.pow(Math.abs(e.getCenterY() - getCenterY()), 2.0));
+        return Math.sqrt(Math.pow(e.getCenterX() - getCenterX(), 2.0) + Math.pow(e.getCenterY() - getCenterY(), 2.0));
     }
 
+    /**
+     * Adds or removes health from the entity
+     * Positive values add, negative subtract
+     *
+     * @param amount The amout of health to add/remove
+     */
     public void addHealth(int amount) {
         if (amount < 0)
             damageEvents.add(new DamageEvent(this, Math.abs(amount)));
@@ -116,10 +154,20 @@ public abstract class Entity {
             health = 0;
     }
 
+    /**
+     * @return The amount of health this entity currently has
+     */
     public int getHealth() {
         return health;
     }
 
+    /**
+     * This method must be overwritten and then called in child classes.
+     * It keeps track of the bounds of the entity as well as updating any
+     * DamageEvents that may have occurred.
+     *
+     * @param diff The time difference in milliseconds since the last update.
+     */
     public void update(double diff) {
         bounds = new Rectangle(position, new Dimension(WIDTH, HEIGHT));
 
@@ -130,19 +178,34 @@ public abstract class Entity {
                 damageEvents.remove(i);
     }
 
+    /**
+     * This method must be overwritten and then called in child classes.
+     * It handles rendering any DamageEvents available
+     *
+     * @param g The Graphics object to draw on
+     */
     public void render(Graphics2D g) {
         for (DamageEvent de : damageEvents)
             de.render(g);
     }
 
+    /**
+     * @return Returns true if this entity is a player, false otherwise
+     */
     public boolean isPlayer() {
         return getClass().equals(Player.class);
     }
 
+    /**
+     * @return Returns true if this entity is a projectile, false otherwise
+     */
     public boolean isProjectile() {
         return getClass().equals(Projectile.class);
     }
 
+    /**
+     * @return Returns true if this entity is an enemy, false otherwise
+     */
     public boolean isEnemy() {
         return getClass().equals(Enemy.class);
     }
