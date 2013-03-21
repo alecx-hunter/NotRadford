@@ -3,15 +3,21 @@ package game.ai;
 
 import game.entity.Direction;
 import game.entity.Enemy;
-import game.entity.Entity;
+import game.graphics.Level;
+import game.pathfinding.Path;
 
 public abstract class EnemyAI {
 
     protected Enemy me;
     protected double shootTimer;
+    protected Level level;
+    protected Path path;
 
-    public EnemyAI(Enemy enemy) {
+    public EnemyAI(Enemy enemy, Level level) {
         me = enemy;
+        this.level = level;
+
+        path = new Path(level);
     }
 
     public void shoot() {

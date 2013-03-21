@@ -6,14 +6,11 @@ import game.ai.BeginnerAI;
 import game.ai.EnemyAI;
 import game.entity.projectile.CircleProjectile;
 import game.graphics.Level;
-import game.pathfinding.Path;
 
 import java.awt.*;
 
 public class Enemy extends Entity {
 
-    private double searchTimer;
-    private Path path;
     private EnemyAI enemyAI;
 
     public Enemy(int x, int y, Game game, Level level, AI ai) {
@@ -24,13 +21,10 @@ public class Enemy extends Entity {
         bounds = new Rectangle(position, new Dimension(WIDTH, HEIGHT));
         speed = 3;
         health = 100;
-        searchTimer = 500;
-
-        path = new Path(level);
 
         switch (ai) {
             case BEGINNER:
-                enemyAI = new BeginnerAI(this);
+                enemyAI = new BeginnerAI(this, level);
                 break;
         }
         init();
@@ -47,13 +41,6 @@ public class Enemy extends Entity {
     public void update(double diff) {
         super.update(diff);
 
-        /*if (searchTimer <= diff) {
-            path.generatePath(position.x, position.y, target.getX(), target.getY());
-
-            searchTimer = 500;
-        } else searchTimer -= diff;
-        if (path != null && distanceTo(target) > 25.0)
-            traversePath(path);*/
         if (enemyAI != null)
             enemyAI.update(diff);
 
