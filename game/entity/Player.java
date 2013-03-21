@@ -1,21 +1,17 @@
 package game.entity;
 
 import game.Game;
-import game.State;
 import game.entity.projectile.CircleProjectile;
 import game.handlers.InputHandler;
 
-import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 public class Player extends Entity {
 
     private InputHandler input;
-    private BufferedImage healthIcon;
+    private Image healthIcon;
     private double shootTimer;
 
     public Player(int x, int y, Game game) {
@@ -30,11 +26,8 @@ public class Player extends Entity {
 
         init();
 
-        try {
-            healthIcon = ImageIO.read(new File("src/res/images/heart.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        healthIcon = new ImageIcon(getClass().getResource("/res/images/heart.png")).getImage();
+
     }
 
     public void setInput(InputHandler input) {
@@ -88,6 +81,7 @@ public class Player extends Entity {
 
         for (int i = 0; i < health; i++)
             g.drawImage(healthIcon, i * 20 + 10, 10, 16, 14, null);
+
     }
 
 }
