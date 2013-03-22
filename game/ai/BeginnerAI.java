@@ -4,6 +4,7 @@ import game.Game;
 import game.entity.Enemy;
 import game.graphics.Level;
 
+import java.awt.*;
 import java.util.Random;
 
 public class BeginnerAI extends EnemyAI {
@@ -28,27 +29,27 @@ public class BeginnerAI extends EnemyAI {
             switch (random.nextInt(4)) {
                 // UP
                 case 0:
-                    if (me.getCenterY() - directionDiff >= 0 &&
-                            level.tiles[me.getCenterX()][me.getCenterY() - directionDiff].isTraversable())
-                        path.generatePath(me.getCenterX(), me.getCenterY(), me.getCenterX(), me.getCenterY() - directionDiff);
+                    if (Game.bounds.contains(me.getX(), me.getY() - directionDiff, me.WIDTH, me.HEIGHT) &&
+                            level.tiles[me.getX()][me.getY() - directionDiff].isTraversable())
+                        path.generatePath(me.getCenterX(), me.getCenterY(), me.getCenterX(), me.getY() - directionDiff);
                     break;
                 // RIGHT
                 case 1:
-                    if (me.getCenterX() + directionDiff <= Game.WIDTH * Game.SCALE &&
-                            level.tiles[me.getCenterX() + directionDiff][me.getCenterY()].isTraversable())
-                        path.generatePath(me.getCenterX(), me.getCenterY(), me.getCenterX() + directionDiff, me.getCenterY());
+                    if (Game.bounds.contains(me.getX() + directionDiff, me.getY(), me.WIDTH, me.HEIGHT) &&
+                            level.tiles[me.getX() + directionDiff][me.getY()].isTraversable())
+                        path.generatePath(me.getCenterX(), me.getCenterY(), me.getX() + directionDiff, me.getCenterY());
                     break;
                 // DOWN
                 case 2:
-                    if (me.getCenterY() + directionDiff <= Game.HEIGHT * Game.SCALE &&
-                            level.tiles[me.getCenterX()][me.getCenterY() + directionDiff].isTraversable())
-                        path.generatePath(me.getCenterX(), me.getCenterY(), me.getCenterX(), me.getCenterY() + directionDiff);
+                    if (Game.bounds.contains(me.getX(), me.getY() + directionDiff, me.WIDTH, me.HEIGHT) &&
+                            level.tiles[me.getX()][me.getY() + directionDiff].isTraversable())
+                        path.generatePath(me.getCenterX(), me.getCenterY(), me.getCenterX(), me.getY() + directionDiff);
                     break;
                 // LEFT
                 case 3:
-                    if (me.getCenterX() - directionDiff >= 0 &&
-                            level.tiles[me.getCenterX() - directionDiff][me.getCenterY()].isTraversable())
-                        path.generatePath(me.getCenterX(), me.getCenterY(), me.getCenterX() - directionDiff, me.getCenterY());
+                    if (Game.bounds.contains(me.getX() - directionDiff, me.getY(), me.WIDTH, me.HEIGHT) &&
+                            level.tiles[me.getX() - directionDiff][me.getY()].isTraversable())
+                        path.generatePath(me.getCenterX(), me.getCenterY(), me.getX() - directionDiff, me.getCenterY());
                     break;
             }
         } else

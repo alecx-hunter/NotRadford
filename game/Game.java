@@ -27,6 +27,8 @@ public class Game extends Canvas implements Runnable {
     public static final int HEIGHT = 120 / 12 * 9;
     public static final int SCALE = 8;
 
+    public static final Rectangle bounds = new Rectangle(0, 0, WIDTH*SCALE, HEIGHT*SCALE);
+
     private Player player;
     private ArrayList<Entity> entities;
     private Screen screen;

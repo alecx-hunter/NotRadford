@@ -89,16 +89,20 @@ public abstract class Entity {
 
         switch (d) {
             case UP:
-                position.y = position.y - (speed / mod) < 0 ? 0 : position.y - (speed / mod);
+                if (Game.bounds.contains(getX(), getY() - (speed / mod), WIDTH, HEIGHT))
+                    position.y -= (speed / mod);
                 break;
             case DOWN:
-                position.y = position.y + (speed / mod) > MAX_Y ? MAX_Y : position.y + (speed / mod);
+                if (Game.bounds.contains(getX(), getY() + (speed / mod), WIDTH, HEIGHT))
+                    position.y += (speed / mod);
                 break;
             case RIGHT:
-                position.x = position.x + (speed / mod) > MAX_X ? MAX_X : position.x + (speed / mod);
+                if (Game.bounds.contains(getX() + (speed / mod), getY(), WIDTH, HEIGHT))
+                    position.x += (speed / mod);
                 break;
             case LEFT:
-                position.x = position.x - (speed / mod) < 0 ? 0 : position.x - (speed / mod);
+                if (Game.bounds.contains(getX() - (speed / mod), getY(), WIDTH, HEIGHT))
+                    position.x -= speed / mod;
                 break;
         }
     }
@@ -134,7 +138,7 @@ public abstract class Entity {
      * sqrt((x1 - x2)^2 + (y1 - y2)^2)
      *
      * @param e The entity to get the distance between
-     * @return Returns the
+     * @return Returns the euclidean distance between this entity and the Entity passed in
      */
     public double distanceTo(Entity e) {
         return Math.sqrt(Math.pow(e.getCenterX() - getCenterX(), 2.0) + Math.pow(e.getCenterY() - getCenterY(), 2.0));
