@@ -5,7 +5,6 @@ import game.entity.projectile.CircleProjectile;
 import game.handlers.InputHandler;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;

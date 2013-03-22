@@ -4,7 +4,6 @@ import game.Game;
 import game.entity.Enemy;
 import game.graphics.Level;
 
-import java.awt.*;
 import java.util.Random;
 
 public class BeginnerAI extends EnemyAI {

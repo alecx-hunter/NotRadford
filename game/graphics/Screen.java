@@ -5,23 +5,22 @@ import game.State;
 import game.handlers.InputHandler;
 
 import java.awt.*;
-import java.awt.font.LineMetrics;
 
 public class Screen {
-	
-	private Game game;
+
+    private Game game;
     private InputHandler input;
-	
-	public Screen(Game game, InputHandler input) {
-		this.game = game;
+
+    public Screen(Game game, InputHandler input) {
+        this.game = game;
         this.input = input;
-	}
-	
-	public void render(Graphics2D g) {
-        switch(game.getState()) {
+    }
+
+    public void render(Graphics2D g) {
+        switch (game.getState()) {
             case MAIN_SCREEN:
-                Rectangle start = new Rectangle(Game.WIDTH*Game.SCALE/2 - 400/2, 150, 400, 80);
-                Rectangle exit = new Rectangle(Game.WIDTH*Game.SCALE/2 - 400/2, 150 + 80 + 25, 400, 80);
+                Rectangle start = new Rectangle(Game.WIDTH * Game.SCALE / 2 - 400 / 2, 150, 400, 80);
+                Rectangle exit = new Rectangle(Game.WIDTH * Game.SCALE / 2 - 400 / 2, 150 + 80 + 25, 400, 80);
 
                 if (start.contains(input.clicked)) {
                     game.setState(State.PLAYING);
@@ -46,8 +45,8 @@ public class Screen {
                 g.setFont(new Font(prev.getName(), Font.BOLD, 38));
 
                 g.setColor(Color.RED);
-                g.drawString("Start Game", Game.WIDTH*Game.SCALE/2 - g.getFontMetrics().stringWidth("Start Game")/2, 150 + g.getFontMetrics().getHeight());
-                g.drawString("Exit", Game.WIDTH*Game.SCALE/2 - g.getFontMetrics().stringWidth("Exit")/2, 150 +80 + 25 + g.getFontMetrics().getHeight());
+                g.drawString("Start Game", Game.WIDTH * Game.SCALE / 2 - g.getFontMetrics().stringWidth("Start Game") / 2, 150 + g.getFontMetrics().getHeight());
+                g.drawString("Exit", Game.WIDTH * Game.SCALE / 2 - g.getFontMetrics().stringWidth("Exit") / 2, 150 + 80 + 25 + g.getFontMetrics().getHeight());
 
                 g.setFont(prev);
 
@@ -55,6 +54,6 @@ public class Screen {
             case PLAYING:
                 break;
         }
-	}
-	
+    }
+
 }

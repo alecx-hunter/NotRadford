@@ -10,10 +10,7 @@ import game.handlers.InputHandler;
 import game.logging.Log;
 
 import javax.swing.*;
-import javax.swing.event.MouseInputListener;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
@@ -27,7 +24,7 @@ public class Game extends Canvas implements Runnable {
     public static final int HEIGHT = 120 / 12 * 9;
     public static final int SCALE = 8;
 
-    public static final Rectangle bounds = new Rectangle(0, 0, WIDTH*SCALE, HEIGHT*SCALE);
+    public static final Rectangle bounds = new Rectangle(0, 0, WIDTH * SCALE, HEIGHT * SCALE);
 
     private Player player;
     private ArrayList<Entity> entities;
@@ -158,7 +155,7 @@ public class Game extends Canvas implements Runnable {
                 RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
         g.clearRect(0, 0, getWidth(), getHeight());
 
-        switch(state) {
+        switch (state) {
             case MAIN_SCREEN:
                 screen.render(g);
                 break;
