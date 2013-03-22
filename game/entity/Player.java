@@ -11,7 +11,7 @@ import java.awt.event.KeyEvent;
 public class Player extends Entity {
 
     private InputHandler input;
-    private Image healthIcon;
+    private Image healthIcon, greyHealthIcon;
     private double shootTimer;
 
     public Player(int x, int y, Game game) {
@@ -27,6 +27,7 @@ public class Player extends Entity {
         init();
 
         healthIcon = new ImageIcon(getClass().getResource("/res/images/heart.png")).getImage();
+        greyHealthIcon = new ImageIcon(getClass().getResource("/res/images/greyHeart.png")).getImage();
 
     }
 
@@ -79,8 +80,11 @@ public class Player extends Entity {
         g.setColor(Color.BLACK);
         g.fillRect(getX(), getY(), WIDTH, HEIGHT);
 
+        for (int i = 0; i < maxHealth; i++)
+            g.drawImage(greyHealthIcon, i * 20 + 10, 10, greyHealthIcon.getWidth(null), greyHealthIcon.getHeight(null), null);
+
         for (int i = 0; i < health; i++)
-            g.drawImage(healthIcon, i * 20 + 10, 10, 16, 14, null);
+            g.drawImage(healthIcon, i * 20 + 10, 10, healthIcon.getWidth(null), healthIcon.getHeight(null), null);
 
     }
 
