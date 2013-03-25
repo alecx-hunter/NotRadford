@@ -11,6 +11,12 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * The "human controlled" character in the game.
+ * It takes input from the keyboard and manipulates the
+ * player to move them around and shoot projectiles at
+ * enemies.
+ */
 public class Player extends Entity {
 
     private InputHandler input;
@@ -38,14 +44,30 @@ public class Player extends Entity {
 
     }
 
+    /**
+     * Attaches the input to this object
+     * @param input Input
+     */
     public void setInput(InputHandler input) {
         this.input = input;
     }
 
+    /**
+     * Sends out a projectile in the given direction
+     * @param d The direction the projectile should move in
+     */
     public void sendProjectile(Direction d) {
         game.addEntity(new CircleProjectile(getCenterX(), getCenterY(), game, this, d, 7, 3, 8));
     }
 
+    /**
+     * Must call the parents update method for updating it's bounds and any
+     * damage occurring.
+     *
+     * Uses the input from the keyboard to send out projectiles and move the
+     * player around the game.
+     * @param diff The time difference in milliseconds since the last update.
+     */
     public void update(double diff) {
         super.update(diff);
 
@@ -93,6 +115,11 @@ public class Player extends Entity {
             game.reset();
     }
 
+    /**
+     * Must call the parents render method to keep track of
+     * any damage events.
+     * @param g The Graphics object to draw on
+     */
     public void render(Graphics2D g) {
         super.render(g);
 

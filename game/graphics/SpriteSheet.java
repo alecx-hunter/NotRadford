@@ -7,6 +7,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Loads in a sprite sheet and stores each sprite into
+ * a BufferedImage array that can be used to display them.
+ */
 public class SpriteSheet {
 
     private BufferedImage[] sprites;
@@ -37,6 +41,16 @@ public class SpriteSheet {
 
     }
 
+    /**
+     * Gets the sprite at the provided position.
+     * Position increments as follows. The values of course
+     * changing depending on how many rows and columns are given
+     * 0   1   2   3   4
+     * 5   6   7   8   9
+     * 10 11  12  13  14
+     * @param position Position of the Sprite on the sheet
+     * @return The sprite in the form of a BufferedImage
+     */
     public BufferedImage getSprite(int position) {
         if (position < 0 || position >= sprites.length)
             return null;

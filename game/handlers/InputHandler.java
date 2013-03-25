@@ -13,9 +13,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * This class handles all the basic keyboard and mouse input
+ */
 public class InputHandler implements KeyListener, MouseListener {
 
-	//public boolean[] keys;
     public HashMap<Integer, Long> keys;
     public Point clicked;
 	
@@ -24,9 +26,6 @@ public class InputHandler implements KeyListener, MouseListener {
         game.addMouseListener(this);
 
         keys = new HashMap<Integer, Long>();
-		//keys = new boolean[KeyEvent.KEY_LAST];
-		//for (int i = 0; i < keys.length; i++)
-			//keys[i] = false;
 
         clicked = new Point();
 	}
@@ -35,10 +34,17 @@ public class InputHandler implements KeyListener, MouseListener {
 		
 	}
 
+    /**
+     * Adds the key that was pressed as well as what time
+     * it was pressed into the map.
+     */
 	public void keyPressed(KeyEvent e) {
         keys.put(e.getKeyCode(), System.currentTimeMillis());
 	}
 
+    /**
+     * Removes the key from the map
+     */
 	public void keyReleased(KeyEvent e) {
         keys.remove(e.getKeyCode());
 	}

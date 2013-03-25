@@ -55,14 +55,25 @@ public class Tile implements Comparable<Tile> {
         parent = t;
     }
 
+    /**
+     * @return The parent of this Tile
+     */
     public Tile getParent() {
         return parent;
     }
 
+    /**
+     * The cost to move from the given tile to this tile
+     * @param x X coordinate of starting point
+     * @param y Y coordinate of starting point
+     */
     public void calcCost(int x, int y) {
         moveCost = Math.max(Math.abs(this.x - x), Math.abs(this.y - y));
     }
 
+    /**
+     * @return True if Entities can pass over this tile, false otherwise
+     */
     public boolean isTraversable() {
         return traversable;
     }

@@ -6,9 +6,14 @@ import game.graphics.Level;
 
 import java.util.Random;
 
+/**
+ * Very simple AI for an Enemy. It shoots based on a pretty simple algorithm
+ * to determine which direction would be best to shoot. It also includes some
+ * code for movement, which is just choosing a random direction to move in.
+ * Once the destination is reached it simply chooses another random direction
+ * to move.
+ */
 public class BeginnerAI extends EnemyAI {
-
-    private double shootTimer;
 
     public BeginnerAI(Enemy enemy, Level level) {
         super(enemy, level);
@@ -16,6 +21,11 @@ public class BeginnerAI extends EnemyAI {
         shootTimer = 800;
     }
 
+    /**
+     * Called on each game update. Contains the AI for this Enemy, consisting
+     * of movement and shooting projectiles
+     * @param diff Time in milliseconds since last update
+     */
     public void update(double diff) {
         if (shootTimer <= diff) {
             shoot();

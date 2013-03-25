@@ -2,6 +2,14 @@ package game.pathfinding;
 
 import java.util.Arrays;
 
+/**
+ * This is a Heap data structure. It is used during path finding
+ * to get the best choice for the next tile.
+ *
+ * The class was made Generic, but the class contained in the heap
+ * must implement the Comparable interface in order to be able to
+ * sort the heap when nodes are added and removed.
+ */
 public class Heap<T extends Comparable<T>> {
 	
 	private Object[] tNodes;
@@ -9,13 +17,24 @@ public class Heap<T extends Comparable<T>> {
 	public Heap() {
 		tNodes = new Object[0];
 	}
-	
+
+    /**
+     * Inserts an object of type T into the heap and then
+     * sorts it.
+     * @param node The object to add to the heap
+     */
 	public void insert(T node) {
 		tNodes = Arrays.copyOf(tNodes, tNodes.length + 1);
 		tNodes[tNodes.length - 1] = node;
 		trickleUp(tNodes.length - 1);
 	}
-		
+
+    /**
+     * Removes the top-most node and returns it's
+     * value. The top-most node will be the object
+     * with the lowest value.
+     * @return The top of the tree
+     */
 	@SuppressWarnings("unchecked")
 	public T remove() {
 		if (tNodes.length == 0)
@@ -26,14 +45,12 @@ public class Heap<T extends Comparable<T>> {
 		trickleDown(0);
 		return node;
 	}
-	
-	/*
-	 *				  0
-	 *	   	    1	            2
-	 *		3      4         5	     6
-	 *    7   8  9   10   11   12 13  14		
-	 */
-	
+
+    /**
+     * Recursively moves the object at the given position
+     * up the tree until it is where it should be.
+     * @param pos The position to start at.
+     */
 	@SuppressWarnings("unchecked")
 	private void trickleUp(int pos) {
 		if (pos == 0)
@@ -45,7 +62,12 @@ public class Heap<T extends Comparable<T>> {
 			return;
 		trickleUp(newPos);
 	}
-	
+
+    /**
+     * Moves the object at the given position down the tree
+     * until it is in it's correct place.
+     * @param pos
+     */
 	@SuppressWarnings("unchecked")
 	private void trickleDown(int pos) {
 		int right = (pos+1)*2;
@@ -66,13 +88,19 @@ public class Heap<T extends Comparable<T>> {
 		swap(pos, large);
 		trickleDown(large);
 	}
-	
+
+    /**
+     * Swaps two nodes
+     */
 	private void swap(int pos1, int pos2) {
 		Object temp = tNodes[pos1];
 		tNodes[pos1] = tNodes[pos2];
 		tNodes[pos2] = temp;
 	}
-	
+
+    /**
+     * Prints out a visual representation of the Heap
+     */
 	public void print() {
 		
 		int levels = calcLevels();
@@ -97,7 +125,11 @@ public class Heap<T extends Comparable<T>> {
 		}
 		System.out.println(str + "\n");
 	}
-		
+
+    /**
+     * Calculates how many layers of the heap there are
+      * @return How many layers or levels are in the Heap
+     */
 	private int calcLevels() {
 		int totalAllowed = 0;
 		int level = 0;
@@ -107,15 +139,26 @@ public class Heap<T extends Comparable<T>> {
 		}
 		return level;
 	}
-	
+
+    /**
+     * @return The size or length of the Heap
+     */
 	public int size() {
 		return tNodes.length;
 	}
-	
+
+    /**
+     * Clears out all the nodes
+     */
 	public void clear() {
 		tNodes = new Object[0];
 	}
-	
+
+    /**
+     * Searches for the given object. Could be improved vastly
+     * @param t The object to look for
+     * @return True if the object is found, false if not
+     */
 	@SuppressWarnings("unchecked")
 	public boolean contains(T t) {
 		for (Object o : tNodes)
