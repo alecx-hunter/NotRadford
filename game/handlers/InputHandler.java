@@ -8,19 +8,25 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class InputHandler implements KeyListener, MouseListener {
 
-	public boolean[] keys;
+	//public boolean[] keys;
+    public HashMap<Integer, Long> keys;
     public Point clicked;
 	
 	public InputHandler(Game game, Player player) {
 		game.addKeyListener(this);
         game.addMouseListener(this);
 
-		keys = new boolean[KeyEvent.KEY_LAST];
-		for (int i = 0; i < keys.length; i++)
-			keys[i] = false;
+        keys = new HashMap<Integer, Long>();
+		//keys = new boolean[KeyEvent.KEY_LAST];
+		//for (int i = 0; i < keys.length; i++)
+			//keys[i] = false;
 
         clicked = new Point();
 	}
@@ -30,11 +36,11 @@ public class InputHandler implements KeyListener, MouseListener {
 	}
 
 	public void keyPressed(KeyEvent e) {
-		keys[e.getKeyCode()] = true;
+        keys.put(e.getKeyCode(), System.currentTimeMillis());
 	}
 
 	public void keyReleased(KeyEvent e) {
-		keys[e.getKeyCode()] = false;
+        keys.remove(e.getKeyCode());
 	}
 
     public void mouseClicked(MouseEvent e) {
@@ -52,4 +58,5 @@ public class InputHandler implements KeyListener, MouseListener {
 
     public void mouseExited(MouseEvent e) {
     }
+
 }
