@@ -2,10 +2,12 @@ package game.entity;
 
 import game.Game;
 import game.entity.projectile.Projectile;
+import game.graphics.SpriteSheet;
 import game.handlers.DamageEvent;
 import game.pathfinding.Path;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public abstract class Entity {
@@ -23,10 +25,19 @@ public abstract class Entity {
     protected Game game;
     protected ArrayList<DamageEvent> damageEvents;
 
+    protected Direction facing;
+    protected boolean moving;
+    protected SpriteSheet sprites;
+    protected int anim;
+    protected BufferedImage sprite;
+
     public Entity(int x, int y, Game game) {
         position = new Point(x, y);
         this.game = game;
         damageEvents = new ArrayList<DamageEvent>();
+        anim = 0;
+        facing = Direction.DOWN;
+        moving = false;
     }
 
     /**
@@ -86,6 +97,9 @@ public abstract class Entity {
      */
     public void move(Direction d, boolean multipleMovement) {
         int mod = multipleMovement ? 2 : 1;
+
+        facing = d;
+        moving = true;
 
         switch (d) {
             case UP:
@@ -168,7 +182,9 @@ public abstract class Entity {
     /**
      * This method must be overwritten and then called in child classes.
      * It keeps track of the bounds of the entity as well as updating any
-     * DamageEvents that may have occurred.
+     * DamageEvents that may have occurred. It also handles animating sprites
+     * of this Entity. The child class has to set moving = false in it's
+     * implementation to ensure the animations work correctly
      *
      * @param diff The time difference in milliseconds since the last update.
      */
@@ -180,15 +196,70 @@ public abstract class Entity {
         for (int i = 0; i < damageEvents.size(); i++)
             if (damageEvents.get(i).getTicks() < 0)
                 damageEvents.remove(i);
+
+        anim = anim < 10000 ? ++anim : 0;
+        if (sprite == null)
+            return;
+        if (moving) {
+            switch (facing) {
+                case UP:
+                    if (anim % 20 < 10)
+                        sprite = sprites.getSprite(13);
+                    else
+                        sprite = sprites.getSprite(15);
+                    break;
+                case DOWN:
+                    if (anim % 20 < 10)
+                        sprite = sprites.getSprite(1);
+                    else
+                        sprite = sprites.getSprite(3);
+                    break;
+                case LEFT:
+                    if (anim % 10 == 0)
+                        sprite = sprites.getSprite(5);
+                    if (anim % 20 == 0)
+                        sprite = sprites.getSprite(6);
+                    if (anim % 30 == 0)
+                        sprite = sprites.getSprite(7);
+                    break;
+                case RIGHT:
+                    if (anim % 10 == 0)
+                        sprite = sprites.getSprite(9);
+                    if (anim % 20 == 0)
+                        sprite = sprites.getSprite(10);
+                    if (anim % 30 == 0)
+                        sprite = sprites.getSprite(11);
+                    break;
+            }
+        }
+        else {
+            switch (facing) {
+                case UP:
+                    sprite = sprites.getSprite(12);
+                    break;
+                case DOWN:
+                    sprite = sprites.getSprite(0);
+                    break;
+                case LEFT:
+                    sprite = sprites.getSprite(4);
+                    break;
+                case RIGHT:
+                    sprite = sprites.getSprite(8);
+                    break;
+            }
+        }
     }
 
     /**
      * This method must be overwritten and then called in child classes.
-     * It handles rendering any DamageEvents available
+     * It handles rendering any DamageEvents available as well as rendering
+     * the sprite that represents this entity
      *
      * @param g The Graphics object to draw on
      */
     public void render(Graphics2D g) {
+        g.drawImage(sprite, getX(), getY(), WIDTH*2, HEIGHT*2, null);
+
         for (DamageEvent de : damageEvents)
             de.render(g);
     }

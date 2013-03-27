@@ -45,6 +45,7 @@ public class Game extends Canvas implements Runnable {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
         frame.add(this, BorderLayout.CENTER);
+        frame.setTitle("Not Radford");
         frame.pack();
 
         frame.setLocationRelativeTo(null);

@@ -2,7 +2,9 @@ package game.entity;
 
 import game.Game;
 import game.entity.projectile.CircleProjectile;
+import game.graphics.SpriteSheet;
 import game.handlers.InputHandler;
+import game.logging.Log;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -10,6 +12,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.DirectoryNotEmptyException;
 
 /**
  * The "human controlled" character in the game.
@@ -25,13 +28,16 @@ public class Player extends Entity {
 
     public Player(int x, int y, Game game) {
         super(x, y, game);
-        WIDTH = 56;
-        HEIGHT = 56;
         bounds = new Rectangle(position, new Dimension(WIDTH, HEIGHT));
         speed = 4;
         maxHealth = 3;
 
         shootTimer = 500;
+
+        sprites = new SpriteSheet("/res/images/player.png", 4, 4);
+        sprite = sprites.getSprite(0);
+        HEIGHT = sprite.getHeight();
+        WIDTH = sprite.getWidth();
 
         init();
 
@@ -96,6 +102,8 @@ public class Player extends Entity {
                     latestKey = keys[i];
                 }
 
+        moving = false;
+
         switch (latestKey) {
             case KeyEvent.VK_W:
                 move(Direction.UP, false);
@@ -122,9 +130,6 @@ public class Player extends Entity {
      */
     public void render(Graphics2D g) {
         super.render(g);
-
-        g.setColor(Color.BLACK);
-        g.fillRect(getX(), getY(), WIDTH, HEIGHT);
 
         for (int i = 0; i < maxHealth; i++)
             g.drawImage(greyHealthIcon, i * 20 + 10, 10, greyHealthIcon.getWidth(null), greyHealthIcon.getHeight(null), null);
