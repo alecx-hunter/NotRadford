@@ -19,7 +19,7 @@ public class SpriteSheet {
 
         sprites = new BufferedImage[rows * columns];
         try {
-            BufferedImage sheet = ImageIO.read(new File(getClass().getResource(path).getFile()));
+            BufferedImage sheet = ImageIO.read(getClass().getResourceAsStream(path));
             int width = sheet.getWidth() / columns;
             int height = sheet.getHeight() / rows;
 
@@ -36,7 +36,7 @@ public class SpriteSheet {
                 }
             }
         } catch (IOException e) {
-            Log.error("Image was not found!");
+            e.printStackTrace();
         }
 
     }

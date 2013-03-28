@@ -42,8 +42,8 @@ public class Player extends Entity {
         init();
 
         try {
-            healthIcon = ImageIO.read(new File(getClass().getResource("/res/images/heart.png").getFile()));
-            greyHealthIcon = ImageIO.read(new File(getClass().getResource("/res/images/greyHeart.png").getFile()));
+            healthIcon = ImageIO.read(getClass().getResourceAsStream("/res/images/heart.png"));
+            greyHealthIcon = ImageIO.read(getClass().getResourceAsStream("/res/images/greyHeart.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
