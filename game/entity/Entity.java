@@ -258,7 +258,7 @@ public abstract class Entity {
      * @param g The Graphics object to draw on
      */
     public void render(Graphics2D g) {
-        g.drawImage(sprite, getX(), getY(), WIDTH*2, HEIGHT*2, null);
+        g.drawImage(sprite, getX(), getY(), WIDTH, HEIGHT, null);
 
         for (DamageEvent de : damageEvents)
             de.render(g);
