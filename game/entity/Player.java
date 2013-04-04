@@ -30,14 +30,14 @@ public class Player extends Entity {
         super(x, y, game);
         bounds = new Rectangle(position, new Dimension(WIDTH, HEIGHT));
         speed = 4;
-        maxHealth = 3;
+        maxHealth = 5;
 
         shootTimer = 500;
 
         sprites = new SpriteSheet("/res/images/player.png", 4, 4);
         sprite = sprites.getSprite(0);
-        HEIGHT = sprite.getHeight();
-        WIDTH = sprite.getWidth();
+        HEIGHT = sprite.getHeight()*2;
+        WIDTH = sprite.getWidth()*2;
 
         init();
 
@@ -97,7 +97,8 @@ public class Player extends Entity {
 
         for (int i = 0; i < keys.length; i++)
             if (input.keys.containsKey(keys[i]))
-                if (mostRecent < input.keys.get(keys[i])) {
+                if (mostRecent <
+                        input.keys.get(keys[i])) {
                     mostRecent = input.keys.get(keys[i]);
                     latestKey = keys[i];
                 }
