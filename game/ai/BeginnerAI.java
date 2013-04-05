@@ -19,7 +19,7 @@ public class BeginnerAI extends EnemyAI {
     public BeginnerAI(Enemy enemy, Level level) {
         super(enemy, level);
 
-        shootTimer = 800;
+        shootTimer = 1200;
     }
 
     /**
@@ -30,7 +30,7 @@ public class BeginnerAI extends EnemyAI {
     public void update(double diff) {
         if (shootTimer <= diff) {
             shoot();
-            shootTimer = 800;
+            shootTimer = 1200;
         } else shootTimer -= diff;
 
         if (path.isEmpty()) {
