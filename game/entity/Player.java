@@ -23,7 +23,7 @@ import java.nio.file.DirectoryNotEmptyException;
 public class Player extends Entity {
 
     private InputHandler input;
-    private BufferedImage healthIcon, greyHealthIcon;
+    private Image healthIcon, greyHealthIcon;
     private double shootTimer;
 
     public Player(int x, int y, Game game) {
@@ -36,8 +36,8 @@ public class Player extends Entity {
 
         sprites = new SpriteSheet("/res/images/player.png", 4, 4);
         sprite = sprites.getSprite(0);
-        HEIGHT = sprite.getHeight()*2;
-        WIDTH = sprite.getWidth()*2;
+        HEIGHT = sprite.getHeight(null) * 2;
+        WIDTH = sprite.getWidth(null) * 2;
 
         init();
 

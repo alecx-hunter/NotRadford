@@ -46,6 +46,8 @@ public abstract class Projectile extends Entity {
     public void checkCollision() {
         if (position.x < 0 || position.x > MAX_X || position.y < 0 || position.y > MAX_Y)
             game.removeEntity(this);
+        if (!game.getLevel().isTraversable(position.x, position.y))
+            game.removeEntity(this);
 
         ArrayList<Entity> entities = game.getEntities();
         for (int i = 0; i < entities.size(); i++) {

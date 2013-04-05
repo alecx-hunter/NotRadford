@@ -2,9 +2,12 @@ package game.entity;
 
 import game.Game;
 import game.entity.projectile.Projectile;
+import game.graphics.Level;
 import game.graphics.SpriteSheet;
 import game.handlers.DamageEvent;
+import game.logging.Log;
 import game.pathfinding.Path;
+import game.pathfinding.Tile;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -29,7 +32,9 @@ public abstract class Entity {
     protected boolean moving;
     protected SpriteSheet sprites;
     protected int anim;
-    protected BufferedImage sprite;
+    protected Image sprite;
+
+    private Point lastPoint;
 
     public Entity(int x, int y, Game game) {
         position = new Point(x, y);
@@ -38,6 +43,8 @@ public abstract class Entity {
         anim = 0;
         facing = Direction.DOWN;
         moving = false;
+
+        lastPoint = null;
     }
 
     /**
@@ -123,28 +130,36 @@ public abstract class Entity {
 
     /**
      * Moves the entity along the path specified
-     *
      * @param path The path the entity is to follow
      */
     public void traversePath(Path path) {
-        Point p;
-        if ((p = path.getNext()) != null) {
-            int directions = 0;
-
-            if (getX() < p.x) directions++;
-            if (getX() > p.x) directions++;
-            if (getY() < p.y) directions++;
-            if (getY() > p.y) directions++;
-
-            if (getX() < p.x && getX() + speed < MAX_X)
-                move(Direction.RIGHT, directions > 1);
-            if (getX() > p.x && getX() - speed >= 0)
-                move(Direction.LEFT, directions > 1);
-            if (getY() < p.y && getY() + speed < MAX_Y)
-                move(Direction.DOWN, directions > 1);
-            if (getY() > p.y && getY() - speed >= 0)
-                move(Direction.UP, directions > 1);
+        Point p = lastPoint;
+        if (lastPoint == null) {
+            p = path.getNext();
+            p = new Point(p.x * 8, p.y * 8);
+            lastPoint = p;
         }
+
+        //Log.console(String.format("X: %d, Y: %d", p.x, p.y));
+
+        int directions = 0;
+
+        if (getX() < p.x) directions++;
+        if (getX() > p.x) directions++;
+        if (getY() < p.y) directions++;
+        if (getY() > p.y) directions++;
+
+        if (getX() < p.x && getX() + speed < MAX_X)
+            move(Direction.RIGHT, directions > 1);
+        if (getX() > p.x && getX() - speed >= 0)
+            move(Direction.LEFT, directions > 1);
+        if (getY() < p.y && getY() + speed < MAX_Y)
+            move(Direction.DOWN, directions > 1);
+        if (getY() > p.y && getY() - speed >= 0)
+            move(Direction.UP, directions > 1);
+
+        if (distanceTo(lastPoint) < 50)
+            lastPoint = null;
     }
 
     /**
@@ -156,6 +171,17 @@ public abstract class Entity {
      */
     public double distanceTo(Entity e) {
         return Math.sqrt(Math.pow(e.getCenterX() - getCenterX(), 2.0) + Math.pow(e.getCenterY() - getCenterY(), 2.0));
+    }
+
+    /**
+     * Returns the euclidean distance between two entities
+     * sqrt((x1 - x2)^2 + (y1 - y2)^2)
+     *
+     * @param p The point to get the distance between
+     * @return Returns the euclidean distance between this entity and the Entity passed in
+     */
+    public double distanceTo(Point p) {
+        return Math.sqrt(Math.pow(p.x - getCenterX(), 2) + Math.pow(p.y - getCenterY(), 2));
     }
 
     /**
@@ -284,4 +310,5 @@ public abstract class Entity {
     public boolean isEnemy() {
         return getClass().equals(Enemy.class);
     }
+
 }

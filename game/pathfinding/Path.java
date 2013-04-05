@@ -2,6 +2,7 @@ package game.pathfinding;
 
 import game.Game;
 import game.graphics.Level;
+import game.logging.Log;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -51,7 +52,6 @@ public class Path {
 
     /**
      * Used to "pop" individual tiles off the final stack
-     *
      * @return The next Point to move to
      */
     public Point getNext() {
@@ -75,13 +75,9 @@ public class Path {
         open.clear();
         closed.clear();
 
-        Tile start = new Tile(startx, starty);
-        end = new Tile(endx, endy);
+        Tile start = level.tiles[startx / Tile.WIDTH][starty / Tile.HEIGHT];
+        end = level.tiles[endx / Tile.WIDTH][endy / Tile.HEIGHT];
         Tile current = new Tile(start.x, start.y);
-
-        start = level.tiles[startx][starty];
-        end = level.tiles[endx][endy];
-        current = new Tile(start.x, start.y);
 
         closed.add(start);
 
@@ -128,13 +124,13 @@ public class Path {
             open.insert(level.tiles[top.x][top.y]);
         }
 
-        if (right.x < Game.WIDTH * Game.SCALE && isValidSearchPosition(right)) {
+        if (right.x < Game.WIDTH && isValidSearchPosition(right)) {
             level.tiles[right.x][right.y].setParent(level.tiles[x][y]);
             level.tiles[right.x][right.y].calcCost(end.x, end.y);
             open.insert(level.tiles[right.x][right.y]);
         }
 
-        if (bottom.y < Game.HEIGHT * Game.SCALE && isValidSearchPosition(bottom)) {
+        if (bottom.y < Game.HEIGHT && isValidSearchPosition(bottom)) {
             level.tiles[bottom.x][bottom.y].setParent(level.tiles[x][y]);
             level.tiles[bottom.x][bottom.y].calcCost(end.x, end.y);
             open.insert(level.tiles[bottom.x][bottom.y]);
@@ -146,19 +142,19 @@ public class Path {
             open.insert(level.tiles[left.x][left.y]);
         }
 
-        if (topRight.x < Game.WIDTH * Game.SCALE && topRight.y >= 0 && isValidSearchPosition(topRight)) {
+        if (topRight.x < Game.WIDTH && topRight.y >= 0 && isValidSearchPosition(topRight)) {
             level.tiles[topRight.x][topRight.y].setParent(level.tiles[x][y]);
             level.tiles[topRight.x][topRight.y].calcCost(end.x, end.y);
             open.insert(level.tiles[topRight.x][topRight.y]);
         }
 
-        if (bottomRight.x < Game.WIDTH * Game.SCALE && bottomRight.y < Game.HEIGHT * Game.SCALE && isValidSearchPosition(bottomRight)) {
+        if (bottomRight.x < Game.WIDTH && bottomRight.y < Game.HEIGHT && isValidSearchPosition(bottomRight)) {
             level.tiles[bottomRight.x][bottomRight.y].setParent(level.tiles[x][y]);
             level.tiles[bottomRight.x][bottomRight.y].calcCost(end.x, end.y);
             open.insert(level.tiles[bottomRight.x][bottomRight.y]);
         }
 
-        if (bottomLeft.x >= 0 && bottomLeft.y < Game.WIDTH * Game.SCALE && isValidSearchPosition(bottomLeft)) {
+        if (bottomLeft.x >= 0 && bottomLeft.y < Game.HEIGHT && isValidSearchPosition(bottomLeft)) {
             level.tiles[bottomLeft.x][bottomRight.y].setParent(level.tiles[x][y]);
             level.tiles[bottomLeft.x][bottomLeft.y].calcCost(end.x, end.y);
             open.insert(level.tiles[bottomLeft.x][bottomRight.y]);

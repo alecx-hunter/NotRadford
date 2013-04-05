@@ -31,12 +31,13 @@ public class Screen {
                     game.stop();
 
                 // Draw button
-                g.setColor(Color.GRAY);
+                g.setColor(Color.DARK_GRAY);
                 g.fillRect(start.x, start.y, start.width, start.height);
                 g.fillRect(exit.x, exit.y, exit.width, exit.height);
 
                 // Draw outline
                 g.setColor(Color.BLACK);
+                g.setStroke(new BasicStroke(4.5f));
                 g.drawRect(start.x, start.y, start.width, start.height);
                 g.drawRect(exit.x, exit.y, exit.width, exit.height);
 
@@ -44,7 +45,7 @@ public class Screen {
                 Font prev = g.getFont();
                 g.setFont(new Font(prev.getName(), Font.BOLD, 38));
 
-                g.setColor(Color.RED);
+                g.setColor(Color.WHITE);
                 g.drawString("Start Game", Game.WIDTH * Game.SCALE / 2 - g.getFontMetrics().stringWidth("Start Game") / 2, 150 + g.getFontMetrics().getHeight());
                 g.drawString("Exit", Game.WIDTH * Game.SCALE / 2 - g.getFontMetrics().stringWidth("Exit") / 2, 150 + 80 + 25 + g.getFontMetrics().getHeight());
 

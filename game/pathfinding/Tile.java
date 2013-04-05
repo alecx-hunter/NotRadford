@@ -1,5 +1,8 @@
 package game.pathfinding;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
 /**
  * This class is mostly used during pathfinding. The class
  * must implement Comparable to be able to be stored into the
@@ -26,6 +29,18 @@ public class Tile implements Comparable<Tile> {
      * Whether Entities can traverse this tile or not
      */
     private boolean traversable;
+    /**
+     * Width of this Tile
+     */
+    public static final int WIDTH = 8;
+    /**
+     * Height of this Tile
+     */
+    public static final int HEIGHT = 8;
+    /**
+     * Image to be displayed on this tile
+     */
+    private Image image;
 
     /**
      * Must pass in the x and y coordinates for this tile upon creating it
@@ -38,6 +53,8 @@ public class Tile implements Comparable<Tile> {
         parent = null;
         traversable = true;
         moveCost = 0;
+
+        image = null;
     }
 
     /**
@@ -76,6 +93,26 @@ public class Tile implements Comparable<Tile> {
      */
     public boolean isTraversable() {
         return traversable;
+    }
+
+    /**
+     * Changes the tile to be traversable or not
+     * @param solid Whether or not objects can pass through this tile
+     */
+    public void setTraversable(boolean solid) {
+        traversable = solid;
+    }
+
+    public void setImage(BufferedImage image) {
+        this.image = image;
+    }
+
+    /**
+     * Renders this tile onto the screen
+     * @param g The graphics object to draw on
+     */
+    public void render(Graphics2D g) {
+        g.drawImage(image, x*WIDTH, y*HEIGHT, null);
     }
 
     /**

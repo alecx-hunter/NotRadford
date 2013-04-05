@@ -6,6 +6,7 @@ import game.entity.Entity;
 import game.entity.Player;
 import game.graphics.Level;
 import game.graphics.Screen;
+import game.graphics.SpriteSheet;
 import game.handlers.InputHandler;
 import game.logging.Log;
 
@@ -29,6 +30,7 @@ public class Game extends Canvas implements Runnable {
     private Player player;
     private ArrayList<Entity> entities;
     private Screen screen;
+    private Level level;
 
     private boolean isRunning;
     private BufferedImage image = new BufferedImage(WIDTH * SCALE, HEIGHT * SCALE, BufferedImage.TYPE_INT_RGB);
@@ -60,7 +62,9 @@ public class Game extends Canvas implements Runnable {
 
     public void init() {
         entities = new ArrayList<Entity>();
-        Level level = new Level();
+        level = new Level();
+        SpriteSheet sprites = new SpriteSheet("/res/images/desk2.png", 1, 1);
+        level.addObject(sprites.getSprite(0), 55, 40, false);
         player = new Player(0, 0, this);
         entities.add(new Enemy(500, 500, this, level, AI.BEGINNER));
         entities.add(player);
@@ -94,6 +98,10 @@ public class Game extends Canvas implements Runnable {
 
     public ArrayList<Entity> getEntities() {
         return entities;
+    }
+
+    public Level getLevel() {
+        return level;
     }
 
     public void reset() {
@@ -161,6 +169,8 @@ public class Game extends Canvas implements Runnable {
                 screen.render(g);
                 break;
             case PLAYING:
+                level.render(g);
+
                 for (int i = 0; i < entities.size(); i++)
                     entities.get(i).render(g);
 
