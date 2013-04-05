@@ -110,19 +110,19 @@ public abstract class Entity {
 
         switch (d) {
             case UP:
-                if (Game.bounds.contains(getX(), getY() - (speed / mod), WIDTH, HEIGHT))
+                if (Game.bounds.contains(getX(), getY() - (speed / mod), WIDTH, HEIGHT) && game.getLevel().isTraversable(getX(), getY() - (speed / mod)))
                     position.y -= (speed / mod);
                 break;
             case DOWN:
-                if (Game.bounds.contains(getX(), getY() + (speed / mod), WIDTH, HEIGHT))
+                if (Game.bounds.contains(getX(), getY() + (speed / mod), WIDTH, HEIGHT) && game.getLevel().isTraversable(getX(), getY() + (speed / mod) + HEIGHT))
                     position.y += (speed / mod);
                 break;
             case RIGHT:
-                if (Game.bounds.contains(getX() + (speed / mod), getY(), WIDTH, HEIGHT))
+                if (Game.bounds.contains(getX() + (speed / mod), getY(), WIDTH, HEIGHT) && game.getLevel().isTraversable(getX() + (speed / mod), getY()))
                     position.x += (speed / mod);
                 break;
             case LEFT:
-                if (Game.bounds.contains(getX() - (speed / mod), getY(), WIDTH, HEIGHT))
+                if (Game.bounds.contains(getX() - (speed / mod), getY(), WIDTH, HEIGHT) && game.getLevel().isTraversable(getX() - (speed / mod), getY()))
                     position.x -= speed / mod;
                 break;
         }
