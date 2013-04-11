@@ -6,6 +6,7 @@ import game.ai.BeginnerAI;
 import game.ai.EnemyAI;
 import game.entity.projectile.CircleProjectile;
 import game.graphics.Level;
+import game.logging.Log;
 
 import java.awt.*;
 
@@ -84,5 +85,10 @@ public class Enemy extends Entity {
         g.setColor(Color.BLACK);
 
         g.fillRect(getX(), getY(), WIDTH, HEIGHT);
+
+        g.setColor(Color.RED);
+        g.fillRect(getX() - 2, getY() - 13, WIDTH + 4, 10);
+        g.setColor(Color.GREEN);
+        g.fillRect(getX(), getY() - 11, (int)((double)health/(double)maxHealth * WIDTH), 6);
     }
 }
