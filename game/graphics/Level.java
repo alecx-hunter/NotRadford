@@ -6,6 +6,7 @@ import game.pathfinding.Tile;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 /**
  * Contains all of the game tiles that are displayed on screen.
@@ -64,10 +65,19 @@ public class Level {
             }
     }
 
-    public boolean isTraversable(int x, int y) {
-        if (x / Tile.WIDTH < 0 || y / Tile.HEIGHT < 0 || x / Tile.WIDTH >= WIDTH || y / Tile.HEIGHT >= HEIGHT)
+    public boolean isTraversable(Rectangle r) {
+        if (r.x / Tile.WIDTH < 0 || r.y / Tile.HEIGHT < 0 || r.x / Tile.WIDTH >= WIDTH || r.y / Tile.HEIGHT >= HEIGHT)
             return false;
-        return tiles[x / Tile.WIDTH][y / Tile.HEIGHT].isTraversable();
+        ArrayList<Tile> tilesunder = new ArrayList<Tile>();
+        for (int i = 0; i < WIDTH; i++)
+            for (int j = 0; j < HEIGHT; j++)
+                if (r.intersects(tiles[i][j].getBounds()))
+                    tilesunder.add(tiles[i][j]);
+
+        for (Tile t : tilesunder)
+            if (!t.isTraversable())
+                return false;
+        return true;
     }
 	
 }

@@ -41,6 +41,10 @@ public class Tile implements Comparable<Tile> {
      * Image to be displayed on this tile
      */
     private Image image;
+    /**
+     * Holds the bounds of this Tile. Used in collision detection
+     */
+    private Rectangle bounds;
 
     /**
      * Must pass in the x and y coordinates for this tile upon creating it
@@ -55,6 +59,7 @@ public class Tile implements Comparable<Tile> {
         moveCost = 0;
 
         image = null;
+        bounds = new Rectangle(x*WIDTH, y*WIDTH, WIDTH, HEIGHT);
     }
 
     /**
@@ -105,6 +110,10 @@ public class Tile implements Comparable<Tile> {
 
     public void setImage(BufferedImage image) {
         this.image = image;
+    }
+
+    public Rectangle getBounds() {
+        return bounds;
     }
 
     /**

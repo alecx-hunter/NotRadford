@@ -5,6 +5,8 @@ import game.entity.Enemy;
 import game.graphics.Level;
 import game.logging.Log;
 
+import javax.swing.text.DefaultCaret;
+import java.awt.*;
 import java.util.Random;
 
 /**
@@ -40,25 +42,25 @@ public class BeginnerAI extends EnemyAI {
                 // UP
                 case 0:
                     if (Game.bounds.contains(me.getX(), me.getY() - directionDiff, me.WIDTH, me.HEIGHT) &&
-                            level.isTraversable(me.getX(), me.getY() - directionDiff))
+                            level.isTraversable(new Rectangle(me.getX(), me.getY() - directionDiff, me.WIDTH, me.HEIGHT)))
                         path.generatePath(me.getCenterX(), me.getCenterY(), me.getCenterX(), me.getY() - directionDiff);
                     break;
                 // RIGHT
                 case 1:
                     if (Game.bounds.contains(me.getX() + directionDiff, me.getY(), me.WIDTH, me.HEIGHT) &&
-                            level.isTraversable(me.getX() + directionDiff, me.getY()))
+                            level.isTraversable(new Rectangle(me.getX() + directionDiff, me.getY(), me.WIDTH, me.HEIGHT)))
                         path.generatePath(me.getCenterX(), me.getCenterY(), me.getX() + directionDiff, me.getCenterY());
                     break;
                 // DOWN
                 case 2:
                     if (Game.bounds.contains(me.getX(), me.getY() + directionDiff, me.WIDTH, me.HEIGHT) &&
-                            level.isTraversable(me.getX(), me.getY() + directionDiff))
+                            level.isTraversable(new Rectangle(me.getX(), me.getY() + directionDiff, me.WIDTH, me.HEIGHT)))
                         path.generatePath(me.getCenterX(), me.getCenterY(), me.getCenterX(), me.getY() + directionDiff);
                     break;
                 // LEFT
                 case 3:
                     if (Game.bounds.contains(me.getX() - directionDiff, me.getY(), me.WIDTH, me.HEIGHT) &&
-                            level.isTraversable(me.getX() - directionDiff, me.getY()))
+                            level.isTraversable(new Rectangle(me.getX() - directionDiff, me.getY(), me.WIDTH, me.HEIGHT)))
                         path.generatePath(me.getCenterX(), me.getCenterY(), me.getX() - directionDiff, me.getCenterY());
                     break;
             }

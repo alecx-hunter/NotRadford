@@ -110,19 +110,23 @@ public abstract class Entity {
 
         switch (d) {
             case UP:
-                if (Game.bounds.contains(getX(), getY() - (speed / mod), WIDTH, HEIGHT) && game.getLevel().isTraversable(getX(), getY() - (speed / mod)))
+                if (Game.bounds.contains(getX(), getY() - (speed / mod), WIDTH, HEIGHT)
+                        && game.getLevel().isTraversable(new Rectangle(getX(), getY() - (speed / mod), WIDTH, HEIGHT)))
                     position.y -= (speed / mod);
                 break;
             case DOWN:
-                if (Game.bounds.contains(getX(), getY() + (speed / mod), WIDTH, HEIGHT) && game.getLevel().isTraversable(getX(), getY() + (speed / mod) + HEIGHT))
+                if (Game.bounds.contains(getX(), getY() + (speed / mod), WIDTH, HEIGHT)
+                        && game.getLevel().isTraversable(new Rectangle(getX(), getY() + (speed / mod), WIDTH, HEIGHT)))
                     position.y += (speed / mod);
                 break;
             case RIGHT:
-                if (Game.bounds.contains(getX() + (speed / mod), getY(), WIDTH, HEIGHT) && game.getLevel().isTraversable(getX() + (speed / mod), getY()))
+                if (Game.bounds.contains(getX() + (speed / mod), getY(), WIDTH, HEIGHT)
+                        && game.getLevel().isTraversable(new Rectangle(getX() + (speed / mod), getY(), WIDTH, HEIGHT)))
                     position.x += (speed / mod);
                 break;
             case LEFT:
-                if (Game.bounds.contains(getX() - (speed / mod), getY(), WIDTH, HEIGHT) && game.getLevel().isTraversable(getX() - (speed / mod), getY()))
+                if (Game.bounds.contains(getX() - (speed / mod), getY(), WIDTH, HEIGHT)
+                        && game.getLevel().isTraversable(new Rectangle(getX() - (speed / mod), getY(), WIDTH, HEIGHT)))
                     position.x -= speed / mod;
                 break;
         }
@@ -139,8 +143,6 @@ public abstract class Entity {
             p = new Point(p.x * 8, p.y * 8);
             lastPoint = p;
         }
-
-        //Log.console(String.format("X: %d, Y: %d", p.x, p.y));
 
         int directions = 0;
 
