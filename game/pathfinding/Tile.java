@@ -112,6 +112,10 @@ public class Tile implements Comparable<Tile> {
         this.image = image;
     }
 
+    public Image getImage() {
+        return image;
+    }
+
     public Rectangle getBounds() {
         return bounds;
     }

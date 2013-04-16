@@ -64,7 +64,7 @@ public class Game extends Canvas implements Runnable {
         entities = new ArrayList<Entity>();
         level = new Level();
         SpriteSheet sprites = new SpriteSheet("/res/images/desk2.png", 1, 1);
-        level.addObject(sprites.getSprite(0), 55, 40, false);
+
         player = new Player(0, 0, this);
         entities.add(new Enemy(500, 500, this, level, AI.BEGINNER));
         entities.add(player);

@@ -4,6 +4,7 @@ import game.Game;
 import game.entity.Direction;
 import game.entity.Entity;
 
+import javax.sound.sampled.AudioInputStream;
 import java.util.ArrayList;
 
 public abstract class Projectile extends Entity {
@@ -11,6 +12,7 @@ public abstract class Projectile extends Entity {
     protected int speed, power;
     private Entity owner;
     protected Direction direction;
+    protected AudioInputStream sound;
 
     public Projectile(int x, int y, Game game, Entity owner, Direction direction) {
         super(x, y, game);
