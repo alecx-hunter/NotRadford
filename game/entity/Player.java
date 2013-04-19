@@ -30,14 +30,12 @@ public class Player extends Entity {
         super(x, y, game);
         bounds = new Rectangle(position, new Dimension(WIDTH, HEIGHT));
         speed = 4;
-        maxHealth = 5;
+        maxHealth = 8;
 
         shootTimer = 500;
 
         sprites = new SpriteSheet("/res/images/player.png", 4, 4);
-        sprite = sprites.getSprite(0);
-        HEIGHT = sprite.getHeight(null) * 2;
-        WIDTH = sprite.getWidth(null) * 2;
+        setSprite(sprites.getSprite(0));
 
         init();
 

@@ -1,6 +1,7 @@
 package game.graphics.levels;
 
 import game.Game;
+import game.entity.Enemy;
 import game.graphics.SpriteSheet;
 import game.logging.Log;
 import game.pathfinding.Tile;
@@ -14,20 +15,24 @@ import java.util.ArrayList;
  * Contains all of the game tiles that are displayed on screen.
  * This class is mainly used when searching for the best path.
  */
-public class Level {
+public abstract class Level {
 
-	private static final int WIDTH = Game.WIDTH + 1;
-	private static final int HEIGHT = Game.HEIGHT + 1;
+	protected static final int WIDTH = Game.WIDTH + 1;
+	protected static final int HEIGHT = Game.HEIGHT + 1;
 	public Tile[][] tiles;
-    private Image fullImage;
+    protected Image fullImage;
+    protected Game game;
+    protected Enemy enemy;
 	
-	public Level() {
+	public Level(Game game) {
 		tiles = new Tile[WIDTH][HEIGHT];
 		
 		for (int x = 0; x < WIDTH; x++)
 			for (int y = 0; y < HEIGHT; y++)
 				tiles[x][y] = new Tile(x, y);
+        this.game = game;
         loadLevel();
+        combineTiles();
 	}
 
     /**
@@ -69,6 +74,11 @@ public class Level {
             }
     }
 
+    /**
+     * Determines if any points in the rectangle are traversable or not
+     * @param r The area to check
+     * @return True if all tiles in the rectangle are traversable, false otherwise
+     */
     public boolean isTraversable(Rectangle r) {
         if (r.x / Tile.WIDTH < 0 || r.y / Tile.HEIGHT < 0 || r.x / Tile.WIDTH >= WIDTH || r.y / Tile.HEIGHT >= HEIGHT)
             return false;
@@ -84,20 +94,21 @@ public class Level {
         return true;
     }
 
-    public void loadLevel() {
-        SpriteSheet sprites = new SpriteSheet("/res/images/desk2.png", 1, 1);
-        BufferedImage desk = sprites.getSprite(0);
-        sprites = new SpriteSheet("/res/images/floorTile.png", 1, 1);
-        BufferedImage floor = sprites.getSprite(0);
-        for (int x = 0; x < WIDTH; x += 2)
-            for (int y = 0; y < HEIGHT; y += 2)
-                addObject(floor, x, y, true);
-        addObject(desk, 55, 40, false);
+    /**
+     * Used to "combine" each tile's image into a single images which is then
+     * rendered onto the screen.
+     */
+    public void combineTiles() {
         fullImage = new BufferedImage(Game.WIDTH*Game.SCALE + 10, Game.HEIGHT*Game.SCALE + 10, BufferedImage.TYPE_INT_ARGB);
         Graphics g = fullImage.getGraphics();
         for (int x = 0; x < WIDTH; x++)
             for (int y = 0; y < HEIGHT; y++)
                 g.drawImage(tiles[x][y].getImage(), x * 8, y * 8, Tile.WIDTH, Tile.HEIGHT, null);
     }
-	
+
+    public boolean isCompleted() {
+        return enemy.getHealth() == 0;
+    }
+
+    public abstract void loadLevel();
 }

@@ -4,7 +4,8 @@ import game.ai.AI;
 import game.entity.Enemy;
 import game.entity.Entity;
 import game.entity.Player;
-import game.graphics.Level;
+import game.graphics.levels.Level;
+import game.graphics.levels.Level1;
 import game.graphics.Screen;
 import game.graphics.SpriteSheet;
 import game.handlers.InputHandler;
@@ -62,11 +63,9 @@ public class Game extends Canvas implements Runnable {
 
     public void init() {
         entities = new ArrayList<Entity>();
-        level = new Level();
-        SpriteSheet sprites = new SpriteSheet("/res/images/desk2.png", 1, 1);
+        level = new Level1(this);
 
         player = new Player(0, 0, this);
-        entities.add(new Enemy(500, 500, this, level, AI.BEGINNER));
         entities.add(player);
 
         InputHandler input = new InputHandler(this, player);

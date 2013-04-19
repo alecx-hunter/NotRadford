@@ -2,16 +2,11 @@ package game.entity;
 
 import game.Game;
 import game.entity.projectile.Projectile;
-import game.graphics.Level;
 import game.graphics.SpriteSheet;
 import game.handlers.DamageEvent;
-import game.logging.Log;
 import game.pathfinding.Path;
-import game.pathfinding.Tile;
 
-import javax.sound.sampled.AudioInputStream;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public abstract class Entity {
@@ -34,6 +29,7 @@ public abstract class Entity {
     protected SpriteSheet sprites;
     protected int anim;
     protected Image sprite;
+    protected int power;
 
     private Point lastPoint;
 
@@ -312,6 +308,20 @@ public abstract class Entity {
      */
     public boolean isEnemy() {
         return getClass().equals(Enemy.class);
+    }
+
+    public void setSprites(SpriteSheet sprites) {
+        this.sprites = sprites;
+    }
+
+    public void setSprite(Image img) {
+        sprite = img;
+        WIDTH = (int)(sprite.getWidth(null) * 1.5);
+        HEIGHT = (int)(sprite.getHeight(null) * 1.5);
+    }
+
+    public void setPower(int power) {
+        this.power = power;
     }
 
 }

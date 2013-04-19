@@ -5,8 +5,7 @@ import game.ai.AI;
 import game.ai.BeginnerAI;
 import game.ai.EnemyAI;
 import game.entity.projectile.CircleProjectile;
-import game.graphics.Level;
-import game.logging.Log;
+import game.graphics.levels.Level;
 
 import java.awt.*;
 
@@ -34,7 +33,7 @@ public class Enemy extends Entity {
         HEIGHT = 56;
         bounds = new Rectangle(position, new Dimension(WIDTH, HEIGHT));
         speed = 3;
-        maxHealth = 100;
+        maxHealth = 25;
 
         switch (ai) {
             case BEGINNER:
@@ -57,7 +56,7 @@ public class Enemy extends Entity {
      * @param d Direction the projectile should move in
      */
     public void shoot(Direction d) {
-        game.addEntity(new CircleProjectile(getCenterX(), getCenterY(), game, this, d, 8, 1, 9));
+        game.addEntity(new CircleProjectile(getCenterX(), getCenterY(), game, this, d, 8, power, 9));
     }
 
     /**
@@ -82,9 +81,9 @@ public class Enemy extends Entity {
      */
     public void render(Graphics2D g) {
         super.render(g);
-        g.setColor(Color.BLACK);
+        /*g.setColor(Color.BLACK);
 
-        g.fillRect(getX(), getY(), WIDTH, HEIGHT);
+        g.fillRect(getX(), getY(), WIDTH, HEIGHT);*/
 
         g.setColor(Color.RED);
         g.fillRect(getX() - 2, getY() - 13, WIDTH + 4, 10);
