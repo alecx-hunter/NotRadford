@@ -1,6 +1,7 @@
-package game.graphics;
+package game.graphics.levels;
 
 import game.Game;
+import game.graphics.SpriteSheet;
 import game.logging.Log;
 import game.pathfinding.Tile;
 

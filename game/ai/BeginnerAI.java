@@ -1,11 +1,10 @@
 package game.ai;
 
 import game.Game;
+import game.entity.Direction;
 import game.entity.Enemy;
-import game.graphics.Level;
-import game.logging.Log;
+import game.graphics.levels.Level;
 
-import javax.swing.text.DefaultCaret;
 import java.awt.*;
 import java.util.Random;
 
@@ -22,6 +21,34 @@ public class BeginnerAI extends EnemyAI {
         super(enemy, level);
 
         shootTimer = 1200;
+    }
+
+    public void shoot() {
+        int dx = me.getCenterX() - me.getPlayer().getCenterX();
+        int dy = me.getCenterY() - me.getPlayer().getCenterY();
+
+        Random r = new Random();
+        if (Math.abs(dx) < Math.abs(dy)) {
+            if (dy < 0) {
+                if (r.nextInt(2) == 0) me.shoot(Direction.DOWN);
+                else me.shoot(Direction.UP);
+            }
+            else {
+                if (r.nextInt(2) == 0) me.shoot(Direction.UP);
+                else me.shoot(Direction.DOWN);
+            }
+        }
+        // This includes the case where they are equal
+        else {
+            if (dx < 0) {
+                if (r.nextInt(2) == 0) me.shoot(Direction.RIGHT);
+                else me.shoot(Direction.LEFT);
+            }
+            else {
+                if (r.nextInt(2) == 0) me.shoot(Direction.LEFT);
+                else me.shoot(Direction.RIGHT);
+            }
+        }
     }
 
     /**
