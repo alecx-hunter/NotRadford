@@ -68,7 +68,7 @@ public class Screen {
                 g.fillRect(0, 0, game.getWidth(), game.getHeight());
                 Font prevf = g.getFont();
                 g.setFont(prevf.deriveFont(32.0f).deriveFont(Font.BOLD));
-                Text.drawOutline(g, "Congratulations!", Color.RED, 350, 400);
+                Text.drawOutline(g, "Congratulations!", Color.RED, 350, 350);
                 g.setColor(Color.WHITE);
                 g.drawString("Congratulations!", 350, 350);
                 g.setFont(prevf);
