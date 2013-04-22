@@ -1,10 +1,11 @@
 package game.entity;
 
 import game.Game;
-import game.ai.AI;
-import game.ai.BeginnerAI;
-import game.ai.EnemyAI;
+import game.ai.*;
+import game.entity.projectile.ChalkProjectile;
 import game.entity.projectile.CircleProjectile;
+import game.entity.projectile.FProjectile;
+import game.entity.projectile.ProjectileType;
 import game.graphics.levels.Level;
 
 import java.awt.*;
@@ -17,6 +18,7 @@ import java.awt.*;
 public class Enemy extends Entity {
 
     private EnemyAI enemyAI;
+    private ProjectileType projectile;
 
     /**
      * Constructor
@@ -26,7 +28,7 @@ public class Enemy extends Entity {
      * @param level Current Level
      * @param ai Which level of AI should be used
      */
-    public Enemy(int x, int y, Game game, Level level, AI ai) {
+    public Enemy(int x, int y, Game game, Level level, AI ai, ProjectileType projectile) {
         super(x, y, game);
 
         WIDTH = 56;
@@ -39,7 +41,15 @@ public class Enemy extends Entity {
             case BEGINNER:
                 enemyAI = new BeginnerAI(this, level);
                 break;
+            case INTERMEDIATE:
+                enemyAI = new IntermediateAI(this, level);
+                break;
+            case ADVANCED:
+                enemyAI = new AdvancedAI(this, game);
+                break;
         }
+
+        this.projectile = projectile;
         init();
     }
 
@@ -56,7 +66,18 @@ public class Enemy extends Entity {
      * @param d Direction the projectile should move in
      */
     public void shoot(Direction d) {
-        game.addEntity(new CircleProjectile(getCenterX(), getCenterY(), game, this, d, 8, power, 9));
+        switch (projectile) {
+
+            case CIRCLE:
+                game.addEntity(new CircleProjectile(getCenterX(), getCenterY(), game, this, d, 8, 1, 9));
+                break;
+            case CHALK:
+                game.addEntity(new ChalkProjectile(getCenterX(), getCenterY(), game, this, d, 9));
+                break;
+            case F:
+                game.addEntity(new FProjectile(getCenterX(), getCenterY(), game, this, d, 9));
+                break;
+        }
     }
 
     /**
@@ -81,9 +102,6 @@ public class Enemy extends Entity {
      */
     public void render(Graphics2D g) {
         super.render(g);
-        /*g.setColor(Color.BLACK);
-
-        g.fillRect(getX(), getY(), WIDTH, HEIGHT);*/
 
         g.setColor(Color.RED);
         g.fillRect(getX() - 2, getY() - 13, WIDTH + 4, 10);

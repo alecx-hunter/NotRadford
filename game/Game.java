@@ -65,7 +65,7 @@ public class Game extends Canvas implements Runnable {
         entities = new ArrayList<Entity>();
         level = new Level1(this);
 
-        player = new Player(0, 0, this);
+        player = new Player(0, 100, this);
         entities.add(player);
 
         InputHandler input = new InputHandler(this, player);
@@ -95,12 +95,22 @@ public class Game extends Canvas implements Runnable {
         entities.remove(e);
     }
 
+    public void removeProjectiles() {
+        for (int i = 0; i < entities.size(); i++)
+            if (entities.get(i).isProjectile())
+                entities.remove(i);
+    }
+
     public ArrayList<Entity> getEntities() {
         return entities;
     }
 
     public Level getLevel() {
         return level;
+    }
+
+    public void setLevel(Level level) {
+        this.level = level;
     }
 
     public void reset() {
@@ -144,8 +154,18 @@ public class Game extends Canvas implements Runnable {
             case MAIN_SCREEN:
                 break;
             case PLAYING:
+                if (level.isCompleted()) {
+                    state = State.LOADING;
+                    return;
+                }
                 for (int i = 0; i < entities.size(); i++)
                     entities.get(i).update(diff);
+                break;
+            case LOADING:
+                if (level.isCompleted())
+                    level.loadNext();
+                else
+                    state = State.PLAYING;
                 break;
         }
     }
@@ -172,12 +192,9 @@ public class Game extends Canvas implements Runnable {
 
                 for (int i = 0; i < entities.size(); i++)
                     entities.get(i).render(g);
-
-                boolean debug = true;
-                if (debug) {
-                    g.setColor(Color.RED);
-                    Log.debug(g, player.getX() + ", " + player.getY(), 5, HEIGHT * SCALE - 10);
-                }
+                break;
+            case LOADING:
+                screen.render(g);
                 break;
         }
 

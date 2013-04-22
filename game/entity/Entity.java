@@ -29,9 +29,9 @@ public abstract class Entity {
     protected SpriteSheet sprites;
     protected int anim;
     protected Image sprite;
-    protected int power;
 
     private Point lastPoint;
+    private int failedAttempts;
 
     public Entity(int x, int y, Game game) {
         position = new Point(x, y);
@@ -42,13 +42,14 @@ public abstract class Entity {
         moving = false;
 
         lastPoint = null;
+        failedAttempts = 0;
     }
 
     /**
      * Must be called at the end of the child constructor to initialize the
      * MAX_X and MAX_Y variables
      */
-    public void init() {
+    protected void init() {
         MAX_X = (Game.WIDTH * Game.SCALE) - WIDTH + 10;
         MAX_Y = (Game.HEIGHT * Game.SCALE) - HEIGHT + 10;
 
@@ -99,7 +100,7 @@ public abstract class Entity {
      * @param d                The Direction in which to move
      * @param multipleMovement Whether or not this entity will be moving in more than one direction (Diagonal)
      */
-    public void move(Direction d, boolean multipleMovement) {
+    public boolean move(Direction d, boolean multipleMovement) {
         int mod = multipleMovement ? 2 : 1;
 
         facing = d;
@@ -108,25 +109,34 @@ public abstract class Entity {
         switch (d) {
             case UP:
                 if (Game.bounds.contains(getX(), getY() - (speed / mod), WIDTH, HEIGHT)
-                        && game.getLevel().isTraversable(new Rectangle(getX(), getY() - (speed / mod), WIDTH, HEIGHT)))
+                        && game.getLevel().isTraversable(new Rectangle(getX(), getY() - (speed / mod), WIDTH, HEIGHT))) {
                     position.y -= (speed / mod);
+                    return true;
+                }
                 break;
             case DOWN:
                 if (Game.bounds.contains(getX(), getY() + (speed / mod), WIDTH, HEIGHT)
-                        && game.getLevel().isTraversable(new Rectangle(getX(), getY() + (speed / mod), WIDTH, HEIGHT)))
+                        && game.getLevel().isTraversable(new Rectangle(getX(), getY() + (speed / mod), WIDTH, HEIGHT))) {
                     position.y += (speed / mod);
+                    return true;
+                }
                 break;
             case RIGHT:
                 if (Game.bounds.contains(getX() + (speed / mod), getY(), WIDTH, HEIGHT)
-                        && game.getLevel().isTraversable(new Rectangle(getX() + (speed / mod), getY(), WIDTH, HEIGHT)))
+                        && game.getLevel().isTraversable(new Rectangle(getX() + (speed / mod), getY(), WIDTH, HEIGHT))) {
                     position.x += (speed / mod);
+                    return true;
+                }
                 break;
             case LEFT:
                 if (Game.bounds.contains(getX() - (speed / mod), getY(), WIDTH, HEIGHT)
-                        && game.getLevel().isTraversable(new Rectangle(getX() - (speed / mod), getY(), WIDTH, HEIGHT)))
+                        && game.getLevel().isTraversable(new Rectangle(getX() - (speed / mod), getY(), WIDTH, HEIGHT))) {
                     position.x -= speed / mod;
+                    return true;
+                }
                 break;
         }
+        return false;
     }
 
     /**
@@ -149,16 +159,22 @@ public abstract class Entity {
         if (getY() > p.y) directions++;
 
         if (getX() < p.x && getX() + speed < MAX_X)
-            move(Direction.RIGHT, directions > 1);
+            if (!move(Direction.RIGHT, directions > 1)) failedAttempts++;
         if (getX() > p.x && getX() - speed >= 0)
-            move(Direction.LEFT, directions > 1);
+            if (!move(Direction.LEFT, directions > 1)) failedAttempts++;
         if (getY() < p.y && getY() + speed < MAX_Y)
-            move(Direction.DOWN, directions > 1);
+            if (!move(Direction.DOWN, directions > 1)) failedAttempts++;
         if (getY() > p.y && getY() - speed >= 0)
-            move(Direction.UP, directions > 1);
+            if (!move(Direction.UP, directions > 1)) failedAttempts++;
 
-        if (distanceTo(lastPoint) < 50)
+        if (distanceTo(lastPoint) < 40)
             lastPoint = null;
+
+        if (failedAttempts >= 3) {
+            path.clear();
+            failedAttempts = 0;
+            lastPoint = null;
+        }
     }
 
     /**
@@ -202,6 +218,18 @@ public abstract class Entity {
      */
     public int getHealth() {
         return health;
+    }
+
+    public void setMaxHealth(int health) {
+        maxHealth = health;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    public void restoreHealth() {
+        health = maxHealth;
     }
 
     /**
@@ -300,7 +328,7 @@ public abstract class Entity {
      * @return Returns true if this entity is a projectile, false otherwise
      */
     public boolean isProjectile() {
-        return getClass().equals(Projectile.class);
+        return this instanceof Projectile;
     }
 
     /**
@@ -318,10 +346,6 @@ public abstract class Entity {
         sprite = img;
         WIDTH = (int)(sprite.getWidth(null) * 1.5);
         HEIGHT = (int)(sprite.getHeight(null) * 1.5);
-    }
-
-    public void setPower(int power) {
-        this.power = power;
     }
 
 }

@@ -1,5 +1,7 @@
 package game;
 
 public enum State {
-    MAIN_SCREEN, PLAYING
+    MAIN_SCREEN,
+    PLAYING,
+    LOADING,
 }

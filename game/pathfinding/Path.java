@@ -2,6 +2,7 @@ package game.pathfinding;
 
 import game.Game;
 import game.graphics.levels.Level;
+import game.logging.Log;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -69,10 +70,21 @@ public class Path {
         return path == null || path.size() == 0;
     }
 
+    /**
+     * Clears the path
+     */
+    public void clear() {
+        path.clear();
+    }
+
     public void generatePath(int startx, int starty, int endx, int endy) {
         path.clear();
         open.clear();
         closed.clear();
+
+        if (endx < 0 || endx > Game.WIDTH * Game.SCALE  ||
+                endy < 0 || endy > Game.HEIGHT * Game.SCALE )
+            return;
 
         Tile start = level.tiles[startx / Tile.WIDTH][starty / Tile.HEIGHT];
         end = level.tiles[endx / Tile.WIDTH][endy / Tile.HEIGHT];

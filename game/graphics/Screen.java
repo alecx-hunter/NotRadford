@@ -54,6 +54,15 @@ public class Screen {
                 break;
             case PLAYING:
                 break;
+            case LOADING:
+                g.setColor(Color.BLACK);
+                g.fillRect(0, 0, game.getWidth(), game.getHeight());
+                g.setColor(Color.WHITE);
+                Font f = g.getFont();
+                g.setFont(f.deriveFont(32.0f));
+                g.drawString("Loading...", 400, 400);
+                g.setFont(f);
+                break;
         }
     }
 

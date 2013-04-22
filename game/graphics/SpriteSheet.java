@@ -3,6 +3,7 @@ package game.graphics;
 import game.logging.Log;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -19,9 +20,12 @@ public class SpriteSheet {
 
         sprites = new BufferedImage[rows * columns];
         try {
-            BufferedImage sheet = ImageIO.read(getClass().getResourceAsStream(path));
-            int width = sheet.getWidth() / columns;
-            int height = sheet.getHeight() / rows;
+            BufferedImage img = ImageIO.read(getClass().getResourceAsStream(path));
+            int width = img.getWidth() / columns;
+            int height = img.getHeight() / rows;
+            BufferedImage sheet = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_ARGB);
+            Graphics g = sheet.getGraphics();
+            g.drawImage(img, 0, 0, null);
 
             for (int i = 0; i < rows; i++)
             {

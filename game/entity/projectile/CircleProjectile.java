@@ -27,8 +27,8 @@ public class CircleProjectile extends Projectile {
         try {
             Clip clip = AudioSystem.getClip();
             sound = AudioSystem.getAudioInputStream(getClass().getResourceAsStream("/res/sounds/pew.wav"));
-            clip.open(sound);
-            clip.start();
+            //clip.open(sound);
+            //clip.start();
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -26,6 +26,7 @@ public abstract class Level {
 	
 	public Level(Game game) {
 		tiles = new Tile[WIDTH][HEIGHT];
+        game.removeProjectiles();
 		
 		for (int x = 0; x < WIDTH; x++)
 			for (int y = 0; y < HEIGHT; y++)
@@ -111,4 +112,6 @@ public abstract class Level {
     }
 
     public abstract void loadLevel();
+
+    public abstract void loadNext();
 }

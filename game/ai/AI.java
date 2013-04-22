@@ -1,5 +1,7 @@
 package game.ai;
 
 public enum AI {
-    BEGINNER
+    BEGINNER,
+    INTERMEDIATE,
+    ADVANCED
 }

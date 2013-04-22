@@ -30,7 +30,7 @@ public class Player extends Entity {
         super(x, y, game);
         bounds = new Rectangle(position, new Dimension(WIDTH, HEIGHT));
         speed = 4;
-        maxHealth = 8;
+        maxHealth = 5;
 
         shootTimer = 500;
 
@@ -136,6 +136,16 @@ public class Player extends Entity {
         for (int i = 0; i < health; i++)
             g.drawImage(healthIcon, i * 20 + 10, 10, healthIcon.getWidth(null), healthIcon.getHeight(null), null);
 
+    }
+
+    /**
+     * Moves the player to the desired coordinates (Does not check any sort of collision)
+     * @param x X coordinate
+     * @param y Y coordinate
+     */
+    public void moveTo(int x, int y) {
+        position.x = x;
+        position.y = y;
     }
 
 }
