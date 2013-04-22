@@ -31,9 +31,9 @@ public class Player extends Entity {
         super(x, y, game);
         bounds = new Rectangle(position, new Dimension(WIDTH, HEIGHT));
         speed = 4;
-        maxHealth = 5;
+        maxHealth = 6;
 
-        shootTimer = 500;
+        shootTimer = 400;
 
         sprites = new SpriteSheet("/res/images/player.png", 4, 4);
         setSprite(sprites.getSprite(0));
@@ -87,7 +87,7 @@ public class Player extends Entity {
                 sendProjectile(Direction.LEFT);
             else if (input.keys.containsKey(KeyEvent.VK_RIGHT))
                 sendProjectile(Direction.RIGHT);
-            shootTimer = 500;
+            shootTimer = 400;
 
         } else shootTimer -= diff;
 
