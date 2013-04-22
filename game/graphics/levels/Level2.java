@@ -21,7 +21,7 @@ public class Level2 extends Level {
         enemy = new Enemy(750, 625, game, this, AI.INTERMEDIATE, ProjectileType.F);
         enemy.setSprites(sprites);
         enemy.setSprite(sprites.getSprite(0));
-        enemy.setMaxHealth(3);
+        enemy.setMaxHealth(32);
         enemy.restoreHealth();
         game.addEntity(enemy);
 
@@ -51,7 +51,8 @@ public class Level2 extends Level {
     public void loadNext() {
         game.setLevel(new Level3(game));
         Player p = game.getPlayer();
-        p.setMaxHealth(p.getMaxHealth() + 1);
+        p.setMaxHealth(p.getMaxHealth() + 3);
+        p.setPower(5);
         p.addHealth(p.getMaxHealth() - p.getHealth());
     }
 }

@@ -2,10 +2,7 @@ package game.entity;
 
 import game.Game;
 import game.ai.*;
-import game.entity.projectile.ChalkProjectile;
-import game.entity.projectile.CircleProjectile;
-import game.entity.projectile.FProjectile;
-import game.entity.projectile.ProjectileType;
+import game.entity.projectile.*;
 import game.graphics.levels.Level;
 
 import java.awt.*;
@@ -69,13 +66,16 @@ public class Enemy extends Entity {
         switch (projectile) {
 
             case CIRCLE:
-                game.addEntity(new CircleProjectile(getCenterX(), getCenterY(), game, this, d, 8, 1, 9));
+                game.addEntity(new CircleProjectile(getCenterX(), getCenterY(), game, this, d, 8, 1, 8));
                 break;
             case CHALK:
-                game.addEntity(new ChalkProjectile(getCenterX(), getCenterY(), game, this, d, 9));
+                game.addEntity(new ChalkProjectile(getCenterX(), getCenterY(), game, this, d, 8));
                 break;
             case F:
-                game.addEntity(new FProjectile(getCenterX(), getCenterY(), game, this, d, 9));
+                game.addEntity(new FProjectile(getCenterX(), getCenterY(), game, this, d, 8));
+                break;
+            case FIREBALL:
+                game.addEntity(new FireballProjectile(getCenterX(), getCenterY(), game, this, d, 8));
                 break;
         }
     }

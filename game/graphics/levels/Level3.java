@@ -1,6 +1,7 @@
 package game.graphics.levels;
 
 import game.Game;
+import game.State;
 import game.ai.AI;
 import game.entity.Enemy;
 import game.entity.projectile.ProjectileType;
@@ -17,10 +18,10 @@ public class Level3 extends Level {
         game.getPlayer().moveTo(0, 80);
 
         SpriteSheet sprites = new SpriteSheet("/res/images/ray.png", 4, 4);
-        enemy = new Enemy(750, 650, game, this, AI.ADVANCED, ProjectileType.CIRCLE);
+        enemy = new Enemy(750, 650, game, this, AI.ADVANCED, ProjectileType.FIREBALL);
         enemy.setSprites(sprites);
         enemy.setSprite(sprites.getSprite(0));
-        enemy.setMaxHealth(45);
+        enemy.setMaxHealth(44);
         enemy.restoreHealth();
         game.addEntity(enemy);
 
@@ -57,5 +58,6 @@ public class Level3 extends Level {
     }
 
     public void loadNext() {
+        game.setState(State.COMPLETED);
     }
 }

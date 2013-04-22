@@ -4,4 +4,5 @@ public enum State {
     MAIN_SCREEN,
     PLAYING,
     LOADING,
+    COMPLETED
 }

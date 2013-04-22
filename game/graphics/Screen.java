@@ -60,8 +60,18 @@ public class Screen {
                 g.setColor(Color.WHITE);
                 Font f = g.getFont();
                 g.setFont(f.deriveFont(32.0f));
-                g.drawString("Loading...", 400, 400);
+                g.drawString("Loading...", 400, 350);
                 g.setFont(f);
+                break;
+            case COMPLETED:
+                g.setColor(Color.BLACK);
+                g.fillRect(0, 0, game.getWidth(), game.getHeight());
+                Font prevf = g.getFont();
+                g.setFont(prevf.deriveFont(32.0f).deriveFont(Font.BOLD));
+                Text.drawOutline(g, "Congratulations!", Color.RED, 350, 400);
+                g.setColor(Color.WHITE);
+                g.drawString("Congratulations!", 350, 350);
+                g.setFont(prevf);
                 break;
         }
     }

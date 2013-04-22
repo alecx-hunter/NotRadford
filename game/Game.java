@@ -167,6 +167,8 @@ public class Game extends Canvas implements Runnable {
                 else
                     state = State.PLAYING;
                 break;
+            case COMPLETED:
+                break;
         }
     }
 
@@ -194,6 +196,9 @@ public class Game extends Canvas implements Runnable {
                     entities.get(i).render(g);
                 break;
             case LOADING:
+                screen.render(g);
+                break;
+            case COMPLETED:
                 screen.render(g);
                 break;
         }

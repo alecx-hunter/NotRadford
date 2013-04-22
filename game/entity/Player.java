@@ -25,6 +25,7 @@ public class Player extends Entity {
     private InputHandler input;
     private Image healthIcon, greyHealthIcon;
     private double shootTimer;
+    private int power;
 
     public Player(int x, int y, Game game) {
         super(x, y, game);
@@ -36,6 +37,8 @@ public class Player extends Entity {
 
         sprites = new SpriteSheet("/res/images/player.png", 4, 4);
         setSprite(sprites.getSprite(0));
+
+        power = 3;
 
         init();
 
@@ -61,7 +64,7 @@ public class Player extends Entity {
      * @param d The direction the projectile should move in
      */
     public void sendProjectile(Direction d) {
-        game.addEntity(new CircleProjectile(getCenterX(), getCenterY(), game, this, d, 7, 3, 8));
+        game.addEntity(new CircleProjectile(getCenterX(), getCenterY(), game, this, d, 10, power, 10));
     }
 
     /**
@@ -146,6 +149,10 @@ public class Player extends Entity {
     public void moveTo(int x, int y) {
         position.x = x;
         position.y = y;
+    }
+
+    public void setPower(int power) {
+        this.power = power;
     }
 
 }

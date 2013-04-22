@@ -19,7 +19,7 @@ public class Level1 extends Level {
         enemy = new Enemy(600, 600, game, this, AI.BEGINNER, ProjectileType.CHALK);
         enemy.setSprites(sprites);
         enemy.setSprite(sprites.getSprite(0));
-        enemy.setMaxHealth(4);
+        enemy.setMaxHealth(23);
         enemy.restoreHealth();
         game.addEntity(enemy);
     }
