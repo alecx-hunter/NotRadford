@@ -159,7 +159,6 @@ public class Heap<T extends Comparable<T>> {
      * @param t The object to look for
      * @return True if the object is found, false if not
      */
-	@SuppressWarnings("unchecked")
 	public boolean contains(T t) {
 		for (Object o : tNodes)
 			if (o.equals(t))

@@ -2,9 +2,8 @@ package game.pathfinding;
 
 import game.Game;
 import game.graphics.levels.Level;
-import game.logging.Log;
 
-import java.awt.*;
+import java.awt.Point;
 import java.util.ArrayList;
 
 /**

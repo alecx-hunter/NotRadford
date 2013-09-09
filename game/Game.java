@@ -1,22 +1,25 @@
 package game;
 
-import game.ai.AI;
-import game.entity.Enemy;
 import game.entity.Entity;
 import game.entity.Player;
+import game.graphics.Screen;
 import game.graphics.levels.Level;
 import game.graphics.levels.Level1;
-import game.graphics.Screen;
-import game.graphics.SpriteSheet;
 import game.handlers.InputHandler;
-import game.logging.Log;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Canvas;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.util.ArrayList;
+
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 public class Game extends Canvas implements Runnable {
 

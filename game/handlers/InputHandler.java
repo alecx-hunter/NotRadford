@@ -3,15 +3,12 @@ package game.handlers;
 import game.Game;
 import game.entity.Player;
 
-import java.awt.*;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * This class handles all the basic keyboard and mouse input

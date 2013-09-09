@@ -3,23 +3,16 @@ package game.ai;
 import game.Game;
 import game.entity.Direction;
 import game.entity.Enemy;
-import game.entity.Player;
 
-import java.awt.*;
+import java.awt.Rectangle;
 import java.util.Random;
 
 public class AdvancedAI extends EnemyAI {
 
-    private Game game;
-    private double searchTimer;
-
     public AdvancedAI(Enemy enemy, Game game) {
         super(enemy, game.getLevel());
 
-        this.game = game;
-
         shootTimer = 800;
-        searchTimer = 1000;
     }
 
     public void shoot() {

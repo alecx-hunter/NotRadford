@@ -4,15 +4,15 @@ import game.Game;
 import game.entity.projectile.CircleProjectile;
 import game.graphics.SpriteSheet;
 import game.handlers.InputHandler;
-import game.logging.Log;
+
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
+import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.DirectoryNotEmptyException;
 
 /**
  * The "human controlled" character in the game.

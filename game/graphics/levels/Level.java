@@ -2,13 +2,13 @@ package game.graphics.levels;
 
 import game.Game;
 import game.entity.Enemy;
-import game.graphics.SpriteSheet;
-import game.logging.Log;
 import game.pathfinding.Tile;
 
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferInt;
 import java.util.ArrayList;
 
 /**

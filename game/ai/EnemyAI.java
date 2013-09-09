@@ -1,12 +1,9 @@
 package game.ai;
 
 
-import game.entity.Direction;
 import game.entity.Enemy;
 import game.graphics.levels.Level;
 import game.pathfinding.Path;
-
-import java.util.Random;
 
 /**
  * This abstract class contains the skeleton of all Enemy's AI.

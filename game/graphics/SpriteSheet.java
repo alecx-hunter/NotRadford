@@ -1,12 +1,10 @@
 package game.graphics;
 
-import game.logging.Log;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 /**
  * Loads in a sprite sheet and stores each sprite into
